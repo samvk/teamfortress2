@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="TF2 Training Practice.">
+    <meta name="author" content="Samuel Katz">
+
+    <title>Team Fortress 2</title>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+    <!-- Custom CSS -->
+    <link href="css/tf2.css"  rel="stylesheet">
+    
+    <!-- Custom Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Anton' rel='stylesheet' type='text/css'>
+    
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+    
+<body>
+    <div class="loading"></div>
+    <div class="all">
+        <div class="full-alt"><p>[Hit f11 (fullscreen)]</p></div>
+        <div class="loadscreen">
+            <img class="continue-button load-continue-button" src="img/load_screen/continue_button.png" alt="" draggable="false" ondragstart="return false"/>
+            <img id="welcome" src="img/load_screen/welcome_screen.png" alt="" draggable="false" ondragstart="return false"/>
+        </div>
+        <div class="map">
+            <img class="continue-button map-continue-button" src="img/load_screen/continue_button.png" alt="" draggable="false" ondragstart="return false"/>
+            <img id="map" src="img/load_screen/training_screen.png" alt="" draggable="false" ondragstart="return false"/>
+        </div>
+        <div class="character-selection">
+            <img class="continue-button select-continue-button" src="img/load_screen/continue_button.png" alt="" draggable="false" ondragstart="return false"/>
+            <div class="choose-character">
+                <div class="scout"></div>
+                <img id="scout" src="img/load_screen/scout.png" alt="" draggable="false" ondragstart="return false"/>
+                <div class="soldier"></div>
+                <img id="soldier" src="img/load_screen/soldier.png" alt="" draggable="false" ondragstart="return false"/>
+                <div class="pyro"></div>
+                <img id="pyro" src="img/load_screen/pyro.png" alt="" draggable="false" ondragstart="return false"/>
+                <div class="demoman"></div>
+                <img id="demoman" src="img/load_screen/demoman.png" alt="" draggable="false" ondragstart="return false"/>
+                <div class="heavy"></div>
+                <img id="heavy" class="active" src="img/load_screen/heavy.png" alt="" draggable="false" ondragstart="return false"/>
+                <div class="engy"></div>
+                <img id="engy" src="img/load_screen/engy.png" alt="" draggable="false" ondragstart="return false"/>
+                <div class="medic"></div>
+                <img id="medic" src="img/load_screen/medic.png" alt="" draggable="false" ondragstart="return false"/>
+                <div class="sniper"></div>
+                <img id="sniper" src="img/load_screen/sniper.png" alt="" draggable="false" ondragstart="return false"/>
+                <div class="spy"></div>
+                <img id="spy" src="img/load_screen/spy.png" alt="" draggable="false" ondragstart="return false"/>
+                <div class="random"></div>
+                <img id="random" src="img/load_screen/random.png" alt="" draggable="false" ondragstart="return false"/>
+            </div>
+        </div>
+        <img id="crate" src="img/ammocrate.png" alt="" draggable="false" ondragstart="return false"/>
+
+        <div><p class="class-button">Change classes [,]</p></div>
+        <div class="background">
+            <div class="ammo-info">
+                <img id="ammo-back" src="img/ammo_back.png" alt="" draggable="false" ondragstart="return false"/>
+                <div><p class="ammo"></p></div>
+                <div><p class="total-ammo"></p></div>
+            </div>
+            <div class="hud-info">
+                <img id="hud" alt="" draggable="false" ondragstart="return false"/>
+            </div>
+            <img id="glass" src="img/cursors/glass.png" alt="" draggable="false" ondragstart="return false"/>
+            <img id="cursor" alt="" draggable="false" ondragstart="return false"/>
+            <img id="sky" src="img/tf2%20targets%20background.png" alt="" draggable="false" ondragstart="return false"/>
+
+            <audio id="gunshot"></audio>
+            <audio id="gunshot2"></audio>
+            <audio id="reload"></audio>
+            <audio id="no-ammo"></audio>
+            <audio id="no-ammo2"></audio>
+            <audio id="no"></audio>
+            <audio id="draw"></audio>
+            <audio id="speak"></audio>
+            <audio id="metal" src="audio/resupply.mp3"></audio>
+            <audio id="button" src="audio/button.mp3"></audio>
+            <audio id="hover" src="audio/hover.mp3"></audio>
+            <audio id="headshot" src="audio/headshot.mp3"></audio>
+            <audio id="wind-up" src="audio/heavy/wind-up.mp3"></audio>
+            <audio id="wind-down" src="audio/heavy/wind-down.mp3"></audio>
+            <div class="headshot">
+                <div class="scout-head"></div>
+                <div class="soldier-head"></div>
+                <div class="pyro-head"></div>
+                <div class="demoman-head"></div>
+                <div class="heavy-head"></div>
+                <div class="engy-head"></div>
+                <div class="medic-head"></div>
+                <div class="sniper-head"></div>
+                <div class="spy-head"></div>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- jQuery Version 1.11.1 -->
+    <script src="js/jquery.js"></script>
+    
+    <!-- Javascript -->
+    <script src="js/tf2.js"></script>
+    
+</body>
