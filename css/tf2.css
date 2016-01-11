@@ -314,9 +314,10 @@ body {
     margin-left: 1818px;
 }
 
-.headshot > p {
+.crit {
     font-family: 'TF2', Times, serif;
     text-align: center;
+    font-style: italic;
     line-height: 1;
     position: absolute;
     z-index: 4;

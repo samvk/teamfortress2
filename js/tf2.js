@@ -268,8 +268,8 @@ $(document).ready(function () {
                 setTimeout(function () { $(".fade-out:first").removeClass("fade-out").fadeOut(600, function () {$(this).remove(); }); }, 20000);
                 //headshot
                 if (headCheck === true && (activeCharacter === character.spy || activeCharacter === character.sniper)) {
-                    $("<i class='hit'>Critical<br>Hit!!!</i>").appendTo(".headshot > p").parent().css({left: xPosition - 56, top: yPosition - 100});
-                    setTimeout(function () { $(".hit:first").fadeOut(340, function () {$(this).remove(); }); }, 430);
+                    $("<p class='crit'>Critical<br>Hit!!!</p>").appendTo(".headshot").css({left: xPosition - 56, top: yPosition - 100});
+                    setTimeout(function () { $(".crit:first").fadeOut(340, function () {$(this).remove(); }); }, 430);
                     setTimeout(function () { playAudio($("#headshot")[0]); }, 200);
                 }
             }

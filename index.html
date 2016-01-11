@@ -27,22 +27,32 @@
 </head>
     
 <body>
-    <div class="loading"></div>
+    <div class="loading"></div> <!--Loading screen (removed when images loaded)-->
+    
     <div class="all">
         <div class="full-alt"><p>[Hit f11 (fullscreen)]</p></div>
+        
+        <!--load screen-->
         <div class="loadscreen">
             <img class="continue-button load-continue-button" src="img/load_screen/continue_button.png" alt="" draggable="false" ondragstart="return false"/>
             <img id="welcome" src="img/load_screen/welcome_screen.png" alt="" draggable="false" ondragstart="return false"/>
-        </div>
+        </div><!--//loadscreen-->
+        
+        <!--map screen-->
         <div class="map">
             <img class="continue-button map-continue-button" src="img/load_screen/continue_button.png" alt="" draggable="false" ondragstart="return false"/>
             <img id="map" src="img/load_screen/training_screen.png" alt="" draggable="false" ondragstart="return false"/>
-        </div>
+        </div> <!--//map-->
+
+    <!--Character screen-->
+
         <div class="character-selection">
             <img class="continue-button select-continue-button" src="img/load_screen/continue_button.png" alt="" draggable="false" ondragstart="return false"/>
+            
+            <!--Each character's selection screen-->
             <div class="choose-character">
-                <div class="scout"></div>
-                <img id="scout" src="img/load_screen/scout.png" alt="" draggable="false" ondragstart="return false"/>
+                <div class="scout"></div><!--Div over character's picture to select them-->
+                <img id="scout" src="img/load_screen/scout.png" alt="" draggable="false" ondragstart="return false"/><!--Actual character screen-->
                 <div class="soldier"></div>
                 <img id="soldier" src="img/load_screen/soldier.png" alt="" draggable="false" ondragstart="return false"/>
                 <div class="pyro"></div>
@@ -61,24 +71,35 @@
                 <img id="spy" src="img/load_screen/spy.png" alt="" draggable="false" ondragstart="return false"/>
                 <div class="random"></div>
                 <img id="random" src="img/load_screen/random.png" alt="" draggable="false" ondragstart="return false"/>
-            </div>
-        </div>
+            </div><!--//choose-character-->
+            
+        </div><!--character-selection-->
+        
         <img id="crate" src="img/ammocrate.png" alt="" draggable="false" ondragstart="return false"/>
 
         <div><p class="class-button">Change classes [,]</p></div>
+        
+    <!--Game screen-->
+        
         <div class="background">
+            
+            <!--ammo box-->
             <div class="ammo-info">
                 <img id="ammo-back" src="img/ammo_back.png" alt="" draggable="false" ondragstart="return false"/>
                 <div><p class="ammo"></p></div>
                 <div><p class="total-ammo"></p></div>
-            </div>
+            </div><!--//ammo-info-->
+            
+            <!--bottom-left character selected-->
             <div class="hud-info">
                 <img id="hud" alt="" draggable="false" ondragstart="return false"/>
-            </div>
-            <img id="glass" src="img/cursors/glass.png" alt="" draggable="false" ondragstart="return false"/>
-            <img id="cursor" alt="" draggable="false" ondragstart="return false"/>
-            <img id="sky" src="img/tf2%20targets%20background.png" alt="" draggable="false" ondragstart="return false"/>
+            </div><!--hud-info-->
+            
+            <img id="glass" src="img/cursors/glass.png" alt="" draggable="false" ondragstart="return false"/> <!--sniper's scope recticle-->
+            <img id="cursor" alt="" draggable="false" ondragstart="return false"/> <!--crosshair for each character-->
+            <img id="sky" src="img/tf2%20targets%20background.png" alt="" draggable="false" ondragstart="return false"/> <!--sky background (seperate image so bulletholes land behind)-->
 
+    <!--Audio IDs to be assigned based on character in tf2.js--> 
             <audio id="gunshot"></audio>
             <audio id="gunshot2"></audio>
             <audio id="reload"></audio>
@@ -93,6 +114,8 @@
             <audio id="headshot" src="audio/headshot.mp3"></audio>
             <audio id="wind-up" src="audio/heavy/wind-up.mp3"></audio>
             <audio id="wind-down" src="audio/heavy/wind-down.mp3"></audio>
+          
+    <!--Headshot divs (to determine "critical hit")-->
             <div class="headshot">
                 <div class="scout-head"></div>
                 <div class="soldier-head"></div>
@@ -103,10 +126,11 @@
                 <div class="medic-head"></div>
                 <div class="sniper-head"></div>
                 <div class="spy-head"></div>
-                <p></p>
-            </div>
-        </div>
-    </div>
+            </div> <!--//headshot-->
+            
+        </div> <!--//background-->
+        
+    </div> <!--//all-->
 
     
     <!-- jQuery Version 1.11.1 -->
