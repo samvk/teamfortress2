@@ -30,7 +30,7 @@
     <div class="loading"></div> <!--Loading screen (removed when images loaded)-->
     
     <div class="all">
-        <div class="full-alt"><p>[Hit f11 (fullscreen)]</p></div>
+        <div class="full-text"><p>[Hit f11 (fullscreen)]</p></div>
         
         <!--load screen-->
         <div class="loadscreen">
@@ -95,13 +95,12 @@
                 <img id="hud" alt="" draggable="false" ondragstart="return false"/>
             </div><!--hud-info-->
             
-            <img id="glass" src="img/cursors/glass.png" alt="" draggable="false" ondragstart="return false"/> <!--sniper's scope recticle-->
             <img id="cursor" alt="" draggable="false" ondragstart="return false"/> <!--crosshair for each character-->
             <img id="sky" src="img/tf2%20targets%20background.png" alt="" draggable="false" ondragstart="return false"/> <!--sky background (seperate image so bulletholes land behind)-->
 
     <!--Audio IDs to be assigned based on character in tf2.js--> 
             <audio id="gunshot"></audio>
-            <audio id="gunshot2"></audio>
+            <audio id="gunshot2"></audio> <!--second rotating audio tag to prevent delay-->
             <audio id="reload"></audio>
             <audio id="no-ammo"></audio>
             <audio id="no-ammo2"></audio>

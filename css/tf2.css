@@ -44,12 +44,12 @@ body {
 }
 
 /*fullscreen animation*/
-.full-alt {
+.full-text {
     opacity: 0;
     position: absolute;
 }
 
-.fullscreen {
+.flashing {
     width: 1920px;
     text-align: center;
     top: 284px;
@@ -83,15 +83,6 @@ body {
     z-index: 4;
     height: 148px;
     width: 148px;
-}
-
-#glass {
-    position: absolute;
-    border-radius: 50%;
-    z-index: -1;
-    height: 148px;
-    width: 148px;
-    opacity: 0.4;
 }
 
 .bullet {

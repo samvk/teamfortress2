@@ -54,7 +54,7 @@ $(document).ready(function () {
     
     //loading screen
     $(window).load(function () {
-        $(".full-alt").addClass("fullscreen");
+        $(".full-text").addClass("flashing");
         $(".loading").remove();
     });
     
@@ -132,7 +132,6 @@ $(document).ready(function () {
         xPosition = e.pageX;
         yPosition = e.pageY;
         $("#cursor").css({left: xPosition - 74, top: yPosition - 74});
-        $("#glass").css({left: xPosition - 74, top: yPosition - 74});
     });
 
     //check for headshot
@@ -173,9 +172,8 @@ $(document).ready(function () {
     function openCharacterScreen() {
         $(".character-selection").show();
         characterScreen = true;
-        $(".bullet").hide();
+        $(".bullet").remove();
         $("#crate").hide();
-        $("#glass").css("zIndex", -1);
         $(".reload-line").remove();
     }
 
@@ -190,7 +188,7 @@ $(document).ready(function () {
     });
 
     $(".map-continue-button").click(function () {
-        $(".fullscreen").remove();
+        $(".flashing").remove();
         characterScreen = true;
     });
 
@@ -218,7 +216,7 @@ $(document).ready(function () {
         } else {
             ammoLeft--;
             totalAmmo--;
-            //prevent audio delay
+            //prevent audio delay by flipping between audio tags
             if (totalAmmo % 2) {
                 playAudio($("#gunshot")[0]);
             } else {
@@ -248,12 +246,12 @@ $(document).ready(function () {
 
     //random circle bullet spread
     function xSpread() {
-        return Math.floor(Math.random() * (2 * activeCharacter.radius) - activeCharacter.radius);
+        return Math.floor(Math.random() * (2 * activeCharacter.radius) - activeCharacter.radius); //random x-value within spread area
     }
 
-    function ySpread(xSpreadValue) {
-        var y = Math.sqrt((Math.pow(activeCharacter.radius, 2)) - Math.pow(xSpreadValue, 2));
-        return Math.floor(Math.random() * (2 * y) - y);
+    function ySpread(x) {
+        var y = Math.sqrt((Math.pow(activeCharacter.radius, 2)) - Math.pow(x, 2)); //y-value = hypotenouse^2 minus x-value^2
+        return Math.floor(Math.random() * (2 * y) - y); //random y-value (within set limits based on x-value) within spread area
     }
 
     //shooting
@@ -261,10 +259,12 @@ $(document).ready(function () {
         if (noShooting === false) {
             //cursor animation
             $("#cursor").stop().animate({ width: "168px", height: "168px", left: "-=10px", top: "-=10px"}, 0).animate({ width: "148px", height: "148px", left: "+=10px", top: "+=10px"}, 80);
-            //bullet add & fade-away
+            //bullet placement & fade-away
             if (totalAmmo > 0) {
+                //bullet spread placements
                 var x = xSpread();
-                $("<div class='bullet fade-out'></div>").css({left: xPosition - (45 + x), top: yPosition - (81 + ySpread(x))}).appendTo(".background");
+                $("<div class='bullet fade-out'></div>").css({left: xPosition - (45 + x), top: yPosition - (81 + ySpread(x))}).appendTo(".background"); //45px and 81px account for .bullet image-size centering
+                //bullet fade-away
                 setTimeout(function () { $(".fade-out:first").removeClass("fade-out").fadeOut(600, function () {$(this).remove(); }); }, 20000);
                 //headshot
                 if (headCheck === true && (activeCharacter === character.spy || activeCharacter === character.sniper)) {
@@ -288,8 +288,6 @@ $(document).ready(function () {
     function removeActive() {
         $(".active").removeClass("active");
         playAudio($("#hover")[0]);
-        //remove glass on hovers
-        $("#glass").css("zIndex", -1);
     }
 
     function chooseScout() {
@@ -338,7 +336,6 @@ $(document).ready(function () {
         removeActive();
         activeCharacter = character.sniper;
         $("#sniper").addClass("active");
-        $("#glass").css("zIndex", 4);
     }
 
     function chooseSpy() {
@@ -488,7 +485,7 @@ $(document).ready(function () {
     });
 
     //hide cursor
-    $("#crate, .class-button").hover(function () {$("#cursor, #glass").toggle(); });
+    $("#crate, .class-button").hover(function () {$("#cursor").toggle(); });
 
     //disable right click
     $(document).on("contextmenu", function () {
