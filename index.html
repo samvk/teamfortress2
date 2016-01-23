@@ -99,20 +99,20 @@
             <img id="sky" src="img/tf2%20targets%20background.png" alt="" draggable="false" ondragstart="return false"/> <!--sky background (seperate image so bulletholes land behind)-->
 
     <!--Audio IDs to be assigned based on character in tf2.js--> 
-            <audio id="gunshot"></audio>
-            <audio id="gunshot2"></audio> <!--second rotating audio tag to prevent delay-->
-            <audio id="reload"></audio>
-            <audio id="no-ammo"></audio>
-            <audio id="no-ammo2"></audio>
-            <audio id="no"></audio>
-            <audio id="draw"></audio>
-            <audio id="speak"></audio>
-            <audio id="metal" src="audio/resupply.mp3"></audio>
-            <audio id="button" src="audio/button.mp3"></audio>
-            <audio id="hover" src="audio/hover.mp3"></audio>
-            <audio id="headshot" src="audio/headshot.mp3"></audio>
-            <audio id="wind-up" src="audio/heavy/wind-up.mp3"></audio>
-            <audio id="wind-down" src="audio/heavy/wind-down.mp3"></audio>
+            <audio id="gunshot" preload="auto"></audio>
+            <audio id="gunshot2" preload="auto"></audio> <!--second rotating audio tag to prevent delay-->
+            <audio id="reload" preload="auto"></audio>
+            <audio id="no-ammo" preload="auto"></audio>
+            <audio id="no-ammo2" preload="auto"></audio>
+            <audio id="no" preload="auto"></audio>
+            <audio id="draw" preload="auto"></audio>
+            <audio id="speak" preload="auto"></audio>
+            <audio id="metal" preload="auto" src="audio/resupply.mp3"></audio>
+            <audio id="button" preload="auto" src="audio/button.mp3"></audio>
+            <audio id="hover" preload="auto" src="audio/hover.mp3"></audio>
+            <audio id="headshot" preload="auto" src="audio/headshot.mp3"></audio>
+            <audio id="wind-up" preload="auto" src="audio/heavy/wind-up.mp3"></audio>
+            <audio id="wind-down" preload="auto" src="audio/heavy/wind-down.mp3"></audio>
           
     <!--Headshot divs (to determine "critical hit")-->
             <div class="headshot">
@@ -130,7 +130,8 @@
         </div> <!--//background-->
         
     </div> <!--//all-->
-
+	
+	<div id="preload"></div>
     
     <!-- jQuery Version 1.11.1 -->
     <script src="js/jquery.js"></script>

@@ -47,8 +47,8 @@ $(document).ready(function () {
         yPosition,
 
         headCheck;
-
-    /***********************************/
+	
+	/***********************************/
 
     //TF2 functions
     
@@ -56,6 +56,7 @@ $(document).ready(function () {
     $(window).load(function () {
         $(".full-text").addClass("flashing");
         $(".loading").remove();
+		imagePreloader();
     });
     
     //play audio
@@ -99,7 +100,9 @@ $(document).ready(function () {
 
     //update sound/cursor/bullethole
     function setValue() {
-        $("#draw").attr("src", "audio/" + activeCharacter.name + "/gundraw.mp3");
+		$("#cursor").attr("src", "img/cursors/" + activeCharacter.name + ".png");
+        $("#hud").attr("src", "img/hud/" + activeCharacter.name + ".png");
+		$("#draw").attr("src", "audio/" + activeCharacter.name + "/gundraw.mp3");
         $("#gunshot").attr("src", "audio/" + activeCharacter.name + "/shoot.mp3");
         $("#gunshot2").attr("src", "audio/" + activeCharacter.name + "/shoot.mp3");
         $("#reload").attr("src", "audio/" + activeCharacter.name + "/reload.mp3");
@@ -107,9 +110,6 @@ $(document).ready(function () {
         $("#no-ammo2").attr("src", "audio/" + activeCharacter.name + "/noammo.mp3");
         $("#no").attr("src", "audio/" + activeCharacter.name + "/no.mp3");
         rollSpeak();
-        $("#cursor").attr("src", "img/cursors/" + activeCharacter.name + ".png");
-        $("#hud").attr("src", "img/hud/" + activeCharacter.name + ".png");
-
     }
 
     //update bullethole
@@ -154,7 +154,7 @@ $(document).ready(function () {
         setValue();
         fullAmmo();
         $(".character-selection").hide();
-        setTimeout(function () { playAudio($("#draw")[0]); }, 200);
+        setTimeout(function () { playAudio($("#draw")[0]); }, 300);
         characterScreen = false;
         //in case random is selected
         $("#random").removeClass("active");
@@ -172,9 +172,11 @@ $(document).ready(function () {
     function openCharacterScreen() {
         $(".character-selection").show();
         characterScreen = true;
-        $(".bullet").remove();
+        $(".bullet").hide();
         $("#crate").hide();
         $(".reload-line").remove();
+		$("#cursor").attr("src", ""); //remove cursor to prevent character screen lag
+		$("#hud").attr("src", ""); //remove old HUD to prevent it appearing before new one loads
     }
 
     /***********************************/
@@ -282,7 +284,7 @@ $(document).ready(function () {
 
     /***********************************/
 
-    //Choose character screen
+    //Choose character screen for mouse and keyboard
 
     //choose Character functions
     function removeActive() {
@@ -346,8 +348,9 @@ $(document).ready(function () {
 
     function chooseRandom() {
         var classList = [chooseScout, chooseSoldier, choosePyro, chooseDemoman, chooseHeavy, chooseEngy, chooseMedic, chooseSniper, chooseSpy],
-            currentCharacter = activeCharacter;
-        while (activeCharacter === currentCharacter) {
+            oldCharacter = activeCharacter;
+		//prevent random from picking previous character again
+        while (activeCharacter === oldCharacter) {
             classList[Math.floor(Math.random() * 9)]();
         }
         $("#random").addClass("active");
@@ -491,5 +494,49 @@ $(document).ready(function () {
     $(document).on("contextmenu", function () {
         return false;
     });
+	
+	/***********************************/
+
+	//preload images after start screen loads
+	function imagePreloader() {
+		var imageList = [
+			//cursors
+			"img/cursors/scout.png",
+			"img/cursors/soldier.png",
+			"img/cursors/pyro.png",
+			"img/cursors/demoman.png",
+			"img/cursors/heavy.png",
+			"img/cursors/engy.png",
+			"img/cursors/medic.png",
+			"img/cursors/sniper.png",
+			"img/cursors/spy.png",
+			//bulletholes
+			"img/bulletholes/scout.png",
+			"img/bulletholes/soldier.png",
+			"img/bulletholes/pyro.png",
+			"img/bulletholes/demoman.png",
+			"img/bulletholes/heavy.png",
+			"img/bulletholes/engy.png",
+			"img/bulletholes/medic.png",
+			"img/bulletholes/sniper.png",
+			"img/bulletholes/spy.png",
+			//HUDs
+			"img/hud/scout.png",
+			"img/hud/soldier.png",
+			"img/hud/pyro.png",
+			"img/hud/demoman.png",
+			"img/hud/heavy.png",
+			"img/hud/engy.png",
+			"img/hud/medic.png",
+			"img/hud/sniper.png",
+			"img/hud/spy.png"
+		];
+		var newImage = new Array();
+		var i;
+		for (i = 0; i < imageList.length; i++) {
+			newImage[i] = new Image();
+			newImage[i].src = imageList[i];
+		}
+	}
     
 });
