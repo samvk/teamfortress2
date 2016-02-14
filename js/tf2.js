@@ -2,7 +2,7 @@
 $(document).ready(function () {
     "use strict";
     //Character constructor
-    function Character(name, ammoLeft, ammoCarried, bulletholeDelay, radius, bulletDelay, reloadTime) {
+    function Character(name, ammoLeft, ammoCarried, bulletholeDelay, radius, bulletDelay, reloadTime, points) {
         this.name = name;
         this.ammoLeft = ammoLeft;
         this.ammoCarried = ammoCarried;
@@ -10,18 +10,19 @@ $(document).ready(function () {
         this.radius = radius;
         this.bulletDelay = bulletDelay;
         this.reloadTime = reloadTime;
+		this.points = points;
     }
 
     var character = {
-        scout : new Character("scout", 6, 32, 0, 8, 550, 1400),
-        soldier : new Character("soldier", 4, 20, 850, 0, 2000, 2100),
-        pyro : new Character("pyro", 200, 0, 0, 0, 100, 300),
-        demoman : new Character("demoman", 4, 16, 540, 8, 1450, 2050),
-        heavy : new Character("heavy", 200, 0, 0, 30, 100, 1650),
-        engy : new Character("engy", 6, 32, 0, 8, 880, 1600),
-        medic : new Character("medic", 40, 150, 0, 4, 120, 1200),
-        sniper : new Character("sniper", 1, 25, 0, 0, 500, 1200),
-        spy : new Character("spy", 6, 24, 0, 3, 770, 1890)
+        scout : new Character("scout", 6, 32, 0, 8, 550, 1400, 10),
+        soldier : new Character("soldier", 4, 20, 850, 0, 2000, 2100, 20),
+        pyro : new Character("pyro", 200, 0, 0, 0, 100, 300, 2),
+        demoman : new Character("demoman", 4, 16, 540, 8, 1450, 2050, 20),
+        heavy : new Character("heavy", 200, 0, 0, 30, 100, 1650, 2),
+        engy : new Character("engy", 6, 32, 0, 8, 880, 1600, 10),
+        medic : new Character("medic", 40, 150, 0, 4, 120, 1200, 2),
+        sniper : new Character("sniper", 1, 25, 0, 0, 500, 1200, 10),
+        spy : new Character("spy", 6, 24, 0, 3, 770, 1890, 4)
     };
 
     /***********************************/
@@ -33,6 +34,7 @@ $(document).ready(function () {
         ammoLeft,
         ammoCarried,
         totalAmmo,
+		
 
         characterScreen = null,
 
@@ -46,7 +48,10 @@ $(document).ready(function () {
         xPosition,
         yPosition,
 
-        headCheck;
+        headCheck,
+		
+		pointCount = 0,
+		oldHighScore = getCookie("highscore");
 	
 	/***********************************/
 
@@ -57,6 +62,7 @@ $(document).ready(function () {
         $(".full-text").addClass("flashing");
         $(".loading").remove();
 		imagePreloader();
+		checkCookie();
     });
     
     //play audio
@@ -184,12 +190,14 @@ $(document).ready(function () {
     //continue button show/hide & continue
     $(".continue-button").hover(function () {$(this).css("opacity", "1"); }, function () {$(this).css("opacity", "0"); });
 
-    $(".load-continue-button, .map-continue-button").click(function () {
+    $(".load-continue-button").click(function () {
         $(this).parent().empty();
         playAudio($("#button")[0]);
     });
 
     $(".map-continue-button").click(function () {
+		$(this).parent().empty();
+        playAudio($("#button")[0]);
         $(".flashing").remove();
         characterScreen = true;
     });
@@ -218,6 +226,7 @@ $(document).ready(function () {
         } else {
             ammoLeft--;
             totalAmmo--;
+			pointCount += activeCharacter.points;
             //prevent audio delay by flipping between audio tags
             if (totalAmmo % 2) {
                 playAudio($("#gunshot")[0]);
@@ -230,6 +239,11 @@ $(document).ready(function () {
                 clearInterval(mouseHeldDown);
                 setTimeout(function () {reloading(); }, activeCharacter.bulletDelay);
             }
+			//check if new high score
+			if (pointCount > oldHighScore) {
+				setCookie("highscore", pointCount, 90);
+				setTimeout(function () {$(".highscore-text").addClass("highscore-animate"); }, 850);
+			}
         }
     }
 
@@ -273,6 +287,7 @@ $(document).ready(function () {
                     $("<p class='crit'>Critical<br>Hit!!!</p>").appendTo(".headshot").css({left: xPosition - 56, top: yPosition - 100});
                     setTimeout(function () { $(".crit:first").fadeOut(340, function () {$(this).remove(); }); }, 430);
                     setTimeout(function () { playAudio($("#headshot")[0]); }, 200);
+					pointCount += 4;
                 }
             }
             shootGun();
@@ -495,7 +510,7 @@ $(document).ready(function () {
         return false;
     });
 	
-	/***********************************/
+	/****************Preload images*******************/
 
 	//preload images after start screen loads
 	function imagePreloader() {
@@ -538,5 +553,34 @@ $(document).ready(function () {
 			newImage[i].src = imageList[i];
 		}
 	}
-    
+	
+	/**********High Score cookie**********/
+	
+	function setCookie(cname, cvalue, exdays) {
+		var d = new Date();
+		d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+		var expires = "expires=" + d.toUTCString();
+		document.cookie = cname + "=" + cvalue + "; " + expires;
+	}
+
+	function getCookie(cname) {
+		var name = cname + "=";
+		var ca = document.cookie.split(';');
+		var i;
+		for(i = 0; i < ca.length; i++) {
+			var c = ca[i];
+			while (c.charAt(0) == ' ') c = c.substring(1);
+			if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+		}
+		return "";
+	}
+		
+	function checkCookie() {
+		var highscore = getCookie("highscore");
+		//get the cookie (if it exists)
+		if (highscore !== "") {
+			alert("Previous High Score: " + highscore + ".\nCan you beat it?");
+		}
+	}
+	
 });
