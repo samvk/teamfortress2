@@ -26,9 +26,8 @@ $(document).ready(function () {
     };
 
     /***********************************/
-
+	
     //tf2 variables
-
     var activeCharacter = character.heavy,
 
         ammoLeft,
@@ -50,21 +49,51 @@ $(document).ready(function () {
 
         headCheck,
 		
-		pointCount = 0,
-		oldHighScore = getCookie("highscore");
+		pointCount,
+		oldHighScore;
 	
 	/***********************************/
 
     //TF2 functions
-    
-    //loading screen
+
+	//loading screen
     $(window).load(function () {
         $(".full-text").addClass("flashing");
         $(".loading").remove();
 		imagePreloader();
-		checkCookie();
+		setHighScore();
     });
-    
+	
+	
+	function setHighScore() {
+		//high score list
+		var className = ["scout", "soldier", "pyro", "demoman", "heavy", "engy", "medic", "sniper", "spy"];
+		var highscoreNumber;
+		var i;
+		for (i = 0; i < className.length; i++) {
+			if (getCookie(className[i] + "highscore") !== "") {
+				highscoreNumber = getCookie(className[i] + "highscore");
+			} else {
+				highscoreNumber = "0";
+			}
+			$("#" + className[i] + "-highscore").text(highscoreNumber);
+		}
+		
+		//last played date
+		var lastPlayed = getCookie("lastPlayed");
+		var lastPlayedText;
+		var today = new Date().toDateString();
+		if (lastPlayed === "") {
+				lastPlayedText = "Welcome new user!";
+			} else if (lastPlayed === today) {
+				lastPlayedText = "Today";
+			} else {
+				lastPlayedText = lastPlayed;
+			}
+		$("#last-played").after("<p id='last-played-date'>" + lastPlayedText + "</p>");
+		setCookie("lastPlayed", today, 365);
+	}
+	
     //play audio
     function playAudio(audio) {
         audio.currentTime = 0;
@@ -172,6 +201,8 @@ $(document).ready(function () {
         } else {
             $(".total-ammo").css("opacity", 1);
         }
+		oldHighScore = getCookie(activeCharacter.name + "highscore");
+		pointCount = 0;
     }
 
     //open character choice screen
@@ -183,6 +214,7 @@ $(document).ready(function () {
         $(".reload-line").remove();
 		$("#cursor").attr("src", ""); //remove cursor to prevent character screen lag
 		$("#hud").attr("src", ""); //remove old HUD to prevent it appearing before new one loads
+		$(".highscore-text").removeClass("highscore-animate");
     }
 
     /***********************************/
@@ -193,12 +225,14 @@ $(document).ready(function () {
     $(".load-continue-button").click(function () {
         $(this).parent().empty();
         playAudio($("#button")[0]);
+		$(".highscore-list").show();
     });
 
     $(".map-continue-button").click(function () {
 		$(this).parent().empty();
         playAudio($("#button")[0]);
         $(".flashing").remove();
+		$(".highscore-list").remove();
         characterScreen = true;
     });
 
@@ -241,8 +275,8 @@ $(document).ready(function () {
             }
 			//check if new high score
 			if (pointCount > oldHighScore) {
-				setCookie("highscore", pointCount, 90);
-				setTimeout(function () {$(".highscore-text").addClass("highscore-animate"); }, 850);
+				setCookie(activeCharacter.name + "highscore", pointCount, 365);
+				$(".highscore-text").addClass("highscore-animate");
 			}
         }
     }
@@ -277,9 +311,9 @@ $(document).ready(function () {
             $("#cursor").stop().animate({ width: "168px", height: "168px", left: "-=10px", top: "-=10px"}, 0).animate({ width: "148px", height: "148px", left: "+=10px", top: "+=10px"}, 80);
             //bullet placement & fade-away
             if (totalAmmo > 0) {
-                //bullet spread placements
+                //bullet spread placements (45px and 81px account for .bullet image-size centering)
                 var x = xSpread();
-                $("<div class='bullet fade-out'></div>").css({left: xPosition - (45 + x), top: yPosition - (81 + ySpread(x))}).appendTo(".background"); //45px and 81px account for .bullet image-size centering
+                $("<div class='bullet fade-out'></div>").css({left: xPosition - (45 + x), top: yPosition - (81 + ySpread(x))}).appendTo(".background");
                 //bullet fade-away
                 setTimeout(function () { $(".fade-out:first").removeClass("fade-out").fadeOut(600, function () {$(this).remove(); }); }, 20000);
                 //headshot
@@ -574,13 +608,4 @@ $(document).ready(function () {
 		}
 		return "";
 	}
-		
-	function checkCookie() {
-		var highscore = getCookie("highscore");
-		//get the cookie (if it exists)
-		if (highscore !== "") {
-			alert("Previous High Score: " + highscore + ".\nCan you beat it?");
-		}
-	}
-	
 });

@@ -67,11 +67,8 @@ body {
 .full-text {
     opacity: 0;
     position: absolute;
-}
-
-.flashing {
-    width: 1920px;
-    text-align: center;
+	left: 50%;
+	transform: translateX(-50%);
     top: 284px;
     font-family: 'Anton', Arial, serif;
     text-transform: uppercase;
@@ -79,8 +76,69 @@ body {
     color: #ECECEC;
     z-index: 30;
     cursor: default;
-    -webkit-animation: flash 1s ease-in-out 8 alternate;
-    animation: flash 1s ease-in-out 8 alternate;
+
+}
+
+.flashing {
+    -webkit-animation: flash 1s ease-in-out 6 alternate;
+    animation: flash 1s ease-in-out 6 alternate;
+}
+
+.highscore-list {
+	display: none;
+    position: absolute;
+    top: 210px;
+	width: 410px;
+	left: 50%;
+	transform: translateX(-50%);
+    font-family: 'TF2 chalk', Arial, serif;
+    font-size: 40px;
+    color: #ECECEC;
+    z-index: 30;
+    cursor: default;
+}
+
+.highscore-list ul{
+	list-style-type: none;
+	margin-bottom: -45px;
+}
+
+.highscore-list ul li{
+	height: 28px;
+	list-style-type: none;
+}
+
+.highscore-header {
+	text-decoration: underline;
+	font-size: 54px;
+	text-align: center;
+	margin-bottom: -25px;
+}
+
+#last-played {
+	margin: 0;
+	margin-top: 60px;
+	font-size: 50px;
+}
+
+#last-played-date {
+	margin: 0;
+	text-align: center;
+	margin-top: 6px;
+	font-size: 40px;
+}
+
+.highscore-names {
+	margin-left: -40px;
+	float: left;
+}
+
+.highscore-points {
+	float: right;
+}
+
+.clear {
+	clear: both;
 }
 
 .highscore-text {
@@ -97,8 +155,8 @@ body {
 }
 
 .highscore-animate {
-    -webkit-animation: flash .8s ease-in-out 4 alternate;
-    animation: flash .8s ease-in-out 4 alternate;
+    -webkit-animation: flash .8s ease-in-out .85s 4 alternate;
+    animation: flash .8s ease-in-out 4 .85s alternate;
 
 }
 
@@ -354,5 +412,14 @@ body {
         url('../font/TF2.ttf.eot'),
         url('../font/TF2.ttf.eot?#iefix') format('embedded-opentype'); 
     font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+	font-family: 'TF2 chalk';
+	font-style: normal;
+	font-weight: normal;
+	src: url('../font/tf2chalk.woff') format('woff');
+	font-weight: normal;
     font-style: normal;
 }
