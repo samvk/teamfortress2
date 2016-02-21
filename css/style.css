@@ -1,0 +1,460 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  user-drag: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  overflow: hidden;
+}
+
+.loading {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: url("../img/loading.gif") 50% 50% no-repeat #f9f9f9;
+}
+
+.all {
+  margin: 0 auto;
+  width: 1920px;
+}
+
+/************* Menu screens before game begins *****************/
+#welcome {
+  position: absolute;
+  z-index: 25;
+}
+
+.load-continue-button {
+  z-index: 26;
+}
+
+#map {
+  position: absolute;
+  z-index: 22;
+}
+
+.map-continue-button {
+  z-index: 23;
+}
+
+.continue-button {
+  position: absolute;
+  margin-top: 990px;
+  margin-left: 1493px;
+  opacity: 0;
+}
+
+/************* "Hit F11" flash animation *****************/
+.full-text {
+  opacity: 0;
+  position: absolute;
+  width: 1920px;
+  text-align: center;
+  top: 284px;
+  font-family: 'Anton', Arial, serif;
+  text-transform: uppercase;
+  font-size: 100px;
+  color: #ECECEC;
+  z-index: 30;
+  cursor: default;
+}
+
+.flashing {
+  -moz-animation: flash 1s ease-in-out 6 alternate;
+  -webkit-animation: flash 1s ease-in-out 6 alternate;
+  animation: flash 1s ease-in-out 6 alternate;
+}
+
+.high-score-parent {
+  position: relative;
+  width: 1920px;
+}
+
+.highscore-list {
+  opacity: 0;
+  position: absolute;
+  top: 210px;
+  width: 460px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "TF2 chalk", Arial, serif;
+  font-size: 40px;
+  color: #ECECEC;
+  z-index: 30;
+  cursor: default;
+}
+.highscore-list ul {
+  list-style-type: none;
+  margin-bottom: -45px;
+}
+.highscore-list ul li {
+  height: 28px;
+  list-style-type: none;
+}
+
+.highscore-header {
+  text-decoration: underline;
+  font-size: 54px;
+  text-align: center;
+  margin-bottom: -25px;
+}
+
+#last-played {
+  margin: 0;
+  margin-top: 60px;
+  font-size: 46px;
+}
+
+#last-played-date {
+  margin: 0;
+  text-align: center;
+  margin-top: 6px;
+  font-size: 40px;
+}
+
+.highscore-names {
+  float: left;
+}
+
+.highscore-points {
+  float: right;
+  direction: rtl;
+}
+
+.clear {
+  clear: both;
+}
+
+.highscore-text {
+  opacity: 0;
+  position: absolute;
+  width: 1920px;
+  text-align: center;
+  top: 67px;
+  font-family: 'Anton', Arial, serif;
+  text-transform: uppercase;
+  font-size: 100px;
+  color: #ECECEC;
+  z-index: 12;
+}
+
+.highscore-animate {
+  -moz-animation: flash 0.8s ease-in-out 0.85s 4 alternate;
+  -webkit-animation: flash 0.8s ease-in-out 0.85s 4 alternate;
+  animation: flash 0.8s ease-in-out 0.85s 4 alternate;
+}
+
+@-moz-keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/************* Character choice screen *****************/
+.choose-character img {
+  position: absolute;
+  height: 1080px;
+  width: 1920px;
+  visibility: hidden;
+  z-index: 15;
+}
+.choose-character img.active {
+  visibility: visible;
+}
+.choose-character > div {
+  position: absolute;
+  z-index: 20;
+  width: 110px;
+  height: 165px;
+  margin-top: 50px;
+}
+
+.scout {
+  margin-left: 282px;
+}
+
+.soldier {
+  margin-left: 392px;
+}
+
+.pyro {
+  margin-left: 502px;
+}
+
+.demoman {
+  margin-left: 710px;
+}
+
+.heavy {
+  margin-left: 820px;
+}
+
+.engy {
+  margin-left: 930px;
+}
+
+.medic {
+  margin-left: 1125px;
+}
+
+.sniper {
+  margin-left: 1235px;
+}
+
+.spy {
+  margin-left: 1345px;
+}
+
+.random {
+  margin-left: 1522px;
+}
+
+.select-continue-button {
+  z-index: 20;
+}
+
+/************* In-game background *****************/
+.background {
+  background-image: url(../img/tf2%20targets.jpg);
+  height: 1080px;
+  width: 1920px;
+  cursor: none;
+  z-index: 0;
+}
+
+#sky {
+  position: absolute;
+  z-index: 3;
+}
+
+/************* In-game overlay *****************/
+.class-button {
+  font-family: 'TF2', Times, serif;
+  position: absolute;
+  z-index: 10;
+  font-size: 50px;
+  color: white;
+  background: #585048;
+  border: #49433D 4px solid;
+  border-radius: 20px;
+  padding: 5px 70px;
+  margin-top: 955px;
+  margin-left: 700px;
+  text-align: right;
+  cursor: default;
+}
+.class-button:hover {
+  background: #924738;
+  border: #773A2E 4px solid;
+}
+
+#hud {
+  position: absolute;
+  z-index: 10;
+  margin-top: 835px;
+}
+
+.ammo-info {
+  font-family: 'TF2', Times, serif;
+  cursor: none;
+}
+
+.ammo {
+  position: absolute;
+  z-index: 10;
+  font-size: 95px;
+  color: white;
+  margin-left: 1715px;
+  margin-top: 945px;
+}
+
+#ammo-back {
+  position: absolute;
+  z-index: 10;
+  margin-top: 945px;
+  margin-left: 1690px;
+}
+
+.total-ammo {
+  position: absolute;
+  z-index: 10;
+  font-size: 45px;
+  color: white;
+  margin-top: 980px;
+  margin-left: 1811px;
+}
+
+.reload-line {
+  position: absolute;
+  z-index: 10;
+  font-size: 28px;
+  margin-top: 878px;
+  margin-left: 1680px;
+  font-weight: 800;
+  opacity: 0;
+  color: white;
+  text-shadow: 1px 1px black;
+  -moz-animation: flash 1s ease-in-out 3s 6 alternate;
+  -webkit-animation: flash 1s ease-in-out 3s 6 alternate;
+  animation: flash 1s ease-in-out 3s 6 alternate;
+}
+
+#crate {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  margin-top: 795px;
+  margin-left: 1590px;
+  cursor: crosshair;
+}
+
+/************* Gun scope and bulletholes *****************/
+#cursor {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 4;
+  height: 148px;
+  width: 148px;
+}
+
+.bullet {
+  position: absolute;
+  width: 90px;
+  height: 119px;
+  z-index: 1;
+}
+
+/************* "Critical Hit!" location *****************/
+.headshot > div {
+  position: absolute;
+  z-index: 4;
+  width: 40px;
+  border-radius: 40%;
+}
+
+.scout-head {
+  height: 50px;
+  margin-top: 490px;
+  margin-left: 52px;
+}
+
+.soldier-head {
+  height: 60px;
+  margin-top: 482px;
+  margin-left: 294px;
+}
+
+.pyro-head {
+  height: 60px;
+  margin-top: 497px;
+  margin-left: 483px;
+}
+
+.demoman-head {
+  height: 60px;
+  margin-top: 480px;
+  margin-left: 727px;
+}
+
+.heavy-head {
+  height: 55px;
+  margin-top: 468px;
+  margin-left: 994px;
+}
+
+.engy-head {
+  height: 60px;
+  margin-top: 500px;
+  margin-left: 1165px;
+}
+
+.medic-head {
+  height: 40px;
+  margin-top: 488px;
+  margin-left: 1373px;
+}
+
+.sniper-head {
+  height: 50px;
+  margin-top: 479px;
+  margin-left: 1602px;
+}
+
+.spy-head {
+  height: 40px;
+  margin-top: 488px;
+  margin-left: 1818px;
+}
+
+.crit {
+  font-family: "TF2", Times, serif;
+  text-align: center;
+  font-style: italic;
+  line-height: 1;
+  position: absolute;
+  z-index: 4;
+  font-size: 30px;
+  color: #0AD71F;
+  text-shadow: 1px 1px black;
+}
+
+/************* Fonts *****************/
+@font-face {
+  font-family: 'TF2';
+  src: url("../font/TF2.ttf.woff") format("woff"), url("../font/TF2.ttf.svg#TF2") format("svg"), url("../font/TF2.ttf.eot"), url("../font/TF2.ttf.eot?#iefix") format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'TF2 chalk';
+  src: url("../font/tf2chalk.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*# sourceMappingURL=style.css.map */

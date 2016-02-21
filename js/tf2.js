@@ -1,7 +1,9 @@
 /*global $ */
 $(document).ready(function () {
     "use strict";
-    //Character constructor
+
+	/**************Character Constructor**************/
+	
     function Character(name, ammoLeft, ammoCarried, bulletholeDelay, radius, bulletDelay, reloadTime, points) {
         this.name = name;
         this.ammoLeft = ammoLeft;
@@ -14,20 +16,45 @@ $(document).ready(function () {
     }
 
     var character = {
-        scout : new Character("scout", 6, 32, 0, 8, 550, 1400, 10),
-        soldier : new Character("soldier", 4, 20, 850, 0, 2000, 2100, 20),
-        pyro : new Character("pyro", 200, 0, 0, 0, 100, 300, 2),
-        demoman : new Character("demoman", 4, 16, 540, 8, 1450, 2050, 20),
-        heavy : new Character("heavy", 200, 0, 0, 30, 100, 1650, 2),
-        engy : new Character("engy", 6, 32, 0, 8, 880, 1600, 10),
-        medic : new Character("medic", 40, 150, 0, 4, 120, 1200, 2),
-        sniper : new Character("sniper", 1, 25, 0, 0, 500, 1200, 10),
-        spy : new Character("spy", 6, 24, 0, 3, 770, 1890, 4)
+        scout: new Character("scout", 6, 32, 0, 8, 550, 1400, 10),
+        soldier: new Character("soldier", 4, 20, 850, 0, 2000, 2100, 20),
+        pyro: new Character("pyro", 200, 0, 0, 0, 100, 300, 2),
+        demoman: new Character("demoman", 4, 16, 540, 8, 1450, 2050, 20),
+        heavy: new Character("heavy", 200, 0, 0, 30, 100, 1650, 2),
+        engy: new Character("engy", 6, 32, 0, 8, 880, 1600, 10),
+        medic: new Character("medic", 40, 150, 0, 4, 120, 1200, 2),
+        sniper: new Character("sniper", 1, 25, 0, 0, 500, 1200, 10),
+        spy: new Character("spy", 6, 24, 0, 3, 770, 1890, 4)
     };
 
-    /***********************************/
+    
+	/***************High Score cookies**************/
 	
-    //tf2 variables
+	function setCookie(cname, cvalue, exdays) {
+		var d = new Date();
+		d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+		var expires = "expires=" + d.toUTCString();
+		document.cookie = cname + "=" + cvalue + "; " + expires;
+	}
+
+	function getCookie(cname) {
+		var name = cname + "=";
+		var ca = document.cookie.split(';');
+		var i;
+		for (i = 0; i < ca.length; i++) {
+			var c = ca[i];
+			while (c.charAt(0) === " ") {
+				c = c.substring(1);
+			}
+			if (c.indexOf(name) == 0) {
+				return c.substring(name.length, c.length);
+			}
+		}
+		return "";
+	}
+	
+	/*****************TF2 variables******************/
+	
     var activeCharacter = character.heavy,
 
         ammoLeft,
@@ -52,30 +79,23 @@ $(document).ready(function () {
 		pointCount,
 		oldHighScore;
 	
-	/***********************************/
-
-    //TF2 functions
+	/******************TF2 functions*****************/
 
 	//loading screen
     $(window).load(function () {
         $(".full-text").addClass("flashing");
         $(".loading").remove();
-		imagePreloader();
-		setHighScore();
+		imagePreloader();		
     });
 	
-	
-	function setHighScore() {
+	//highscore(map) screen
+	(function setHighScore() {
 		//high score list
 		var className = ["scout", "soldier", "pyro", "demoman", "heavy", "engy", "medic", "sniper", "spy"];
-		var highscoreNumber;
 		var i;
 		for (i = 0; i < className.length; i++) {
-			if (getCookie(className[i] + "highscore") !== "") {
-				highscoreNumber = getCookie(className[i] + "highscore");
-			} else {
-				highscoreNumber = "0";
-			}
+			//find each classes high score (if it exists)
+			var highscoreNumber = getCookie(className[i] + "highscore") !== "" ? getCookie(className[i] + "highscore") : "0";
 			$("#" + className[i] + "-highscore").text(highscoreNumber);
 		}
 		
@@ -84,15 +104,15 @@ $(document).ready(function () {
 		var lastPlayedText;
 		var today = new Date().toDateString();
 		if (lastPlayed === "") {
-				lastPlayedText = "Welcome new user!";
-			} else if (lastPlayed === today) {
-				lastPlayedText = "Today";
-			} else {
-				lastPlayedText = lastPlayed;
-			}
+			lastPlayedText = "Welcome new user!";
+		} else if (lastPlayed === today) {
+			lastPlayedText = "Today";
+		} else {
+			lastPlayedText = lastPlayed;
+		}
 		$("#last-played").after("<p id='last-played-date'>" + lastPlayedText + "</p>");
 		setCookie("lastPlayed", today, 365);
-	}
+	}());
 	
     //play audio
     function playAudio(audio) {
@@ -181,7 +201,7 @@ $(document).ready(function () {
         reloadLine = function () {};
     }
 
-    /***********************************/
+    /****************TF2 Main Game Screens*******************/
 
     //open game screen
     function openGameScreen() {
@@ -205,7 +225,7 @@ $(document).ready(function () {
 		pointCount = 0;
     }
 
-    //open character choice screen
+	//open character choice screen
     function openCharacterScreen() {
         $(".character-selection").show();
         characterScreen = true;
@@ -225,7 +245,7 @@ $(document).ready(function () {
     $(".load-continue-button").click(function () {
         $(this).parent().empty();
         playAudio($("#button")[0]);
-		$(".highscore-list").show();
+		$(".highscore-list").css("opacity", 1);
     });
 
     $(".map-continue-button").click(function () {
@@ -241,9 +261,9 @@ $(document).ready(function () {
         openGameScreen();
     });
 
-    /***********************************/
+    /*****************Shoot and Reload Functions (and more)*******************/
 
-    //shoot and reload functions (and more)
+    //shoot gun functions
     function shootGun() {
         if (totalAmmo <= 0) {
             totalAmmo--;
@@ -276,12 +296,15 @@ $(document).ready(function () {
 			//check if new high score
 			if (pointCount > oldHighScore) {
 				setCookie(activeCharacter.name + "highscore", pointCount, 365);
-				$(".highscore-text").addClass("highscore-animate");
+				//don't flash "new highscore" on first play
+				if (oldHighScore !== "") {
+					$(".highscore-text").addClass("highscore-animate");
+				}
 			}
         }
     }
 
-    //on/after final shot
+    //on & after final shot
     function onLastBullet() {
         if (totalAmmo === 0 && alreadyOnLastBullet === false) {
             alreadyOnLastBullet = true;
@@ -588,24 +611,4 @@ $(document).ready(function () {
 		}
 	}
 	
-	/**********High Score cookie**********/
-	
-	function setCookie(cname, cvalue, exdays) {
-		var d = new Date();
-		d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-		var expires = "expires=" + d.toUTCString();
-		document.cookie = cname + "=" + cvalue + "; " + expires;
-	}
-
-	function getCookie(cname) {
-		var name = cname + "=";
-		var ca = document.cookie.split(';');
-		var i;
-		for(i = 0; i < ca.length; i++) {
-			var c = ca[i];
-			while (c.charAt(0) == ' ') c = c.substring(1);
-			if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-		}
-		return "";
-	}
 });

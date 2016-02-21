@@ -1,23 +1,21 @@
-/* Remove default bordering*/
+@import "compass/css3";
+
+//Remove default bordering
 html, body {
 	margin: 0;
 	padding: 0;
 }
 
-/*prevent dragging and scrolling*/
+//prevent dragging and scrolling
 body {
+	@include user-select(none);
     user-drag: none; 
     -webkit-user-drag: none;
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     overflow: hidden;
 }
 
-/*loading wheel*/
+//loading wheel
 .loading {
 	position: fixed;
 	width: 100%;
@@ -27,13 +25,13 @@ body {
 }
 
 .all {
-    margin: 0 auto; /*Center game (if not fullscreen)*/
+    margin: 0 auto;
     width: 1920px;
 }
 
 /************* Menu screens before game begins *****************/
 
-/* Welcome screen */
+//Welcome screen
 #welcome {
     position: absolute;
     z-index: 25;
@@ -43,7 +41,7 @@ body {
     z-index: 26;
 }
 
-/* Map screen */
+//Map screen
 #map {
     position: absolute;
     z-index: 22;
@@ -53,7 +51,7 @@ body {
     z-index: 23;
 }
 
-/*continue-buttons */
+//continue-buttons
 .continue-button {
     position: absolute;
     margin-top: 990px;
@@ -63,12 +61,12 @@ body {
 
 /************* "Hit F11" flash animation *****************/
 
-/*fullscreen animation*/
+//fullscreen animation
 .full-text {
     opacity: 0;
     position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
+	width: 1920px;
+	text-align: center;
     top: 284px;
     font-family: 'Anton', Arial, serif;
     text-transform: uppercase;
@@ -80,32 +78,36 @@ body {
 }
 
 .flashing {
-    -webkit-animation: flash 1s ease-in-out 6 alternate;
-    animation: flash 1s ease-in-out 6 alternate;
+	@include animation(flash 1s ease-in-out 6 alternate);
+}
+
+.high-score-parent{
+	position: relative;
+	width: 1920px;
 }
 
 .highscore-list {
-	display: none;
+	opacity: 0;
     position: absolute;
     top: 210px;
-	width: 410px;
+	width: 460px;
 	left: 50%;
 	transform: translateX(-50%);
-    font-family: 'TF2 chalk', Arial, serif;
+    font-family: "TF2 chalk", Arial, serif;
     font-size: 40px;
     color: #ECECEC;
     z-index: 30;
     cursor: default;
-}
-
-.highscore-list ul{
-	list-style-type: none;
-	margin-bottom: -45px;
-}
-
-.highscore-list ul li{
-	height: 28px;
-	list-style-type: none;
+	
+	ul {
+		list-style-type: none;
+		margin-bottom: -45px;
+		
+		li {
+			height: 28px;
+			list-style-type: none;
+		}
+	}
 }
 
 .highscore-header {
@@ -118,7 +120,7 @@ body {
 #last-played {
 	margin: 0;
 	margin-top: 60px;
-	font-size: 50px;
+	font-size: 46px;
 }
 
 #last-played-date {
@@ -129,12 +131,12 @@ body {
 }
 
 .highscore-names {
-	margin-left: -40px;
 	float: left;
 }
 
 .highscore-points {
 	float: right;
+	direction: rtl;
 }
 
 .clear {
@@ -155,19 +157,10 @@ body {
 }
 
 .highscore-animate {
-    -webkit-animation: flash .8s ease-in-out .85s 4 alternate;
-    animation: flash .8s ease-in-out 4 .85s alternate;
-
+	@include animation(flash .8s ease-in-out .85s 4 alternate);
 }
 
-@-webkit-keyframes flash {
-    0% {opacity: 0;}
-    20% {opacity: 0;}
-    70% {opacity: 1;}
-    100% {opacity: 1;}
-}
-
-@keyframes flash {
+@include keyframes(flash) {
     0% {opacity: 0;}
     20% {opacity: 0;}
     70% {opacity: 1;}
@@ -176,36 +169,42 @@ body {
 
 /************* Character choice screen *****************/
 
-.choose-character img {
-    position: absolute;
-    height: 1080px;
-    width: 1920px;
-    visibility: hidden;
-    z-index: 15;
-}
+$cc-width: 110px;
 
-.choose-character img.active {
-    visibility: visible;
-}
-
-/* Boxes over each character icon to select*/
-.choose-character > div {
-    position: absolute;
-    z-index: 20;
-    width: 110px;
-    height: 165px;
-    margin-top: 50px;
+.choose-character {
+	img {
+		position: absolute;
+		height: 1080px;
+		width: 1920px;
+		visibility: hidden;
+		z-index: 15;
+		
+		&.active {
+    		visibility: visible;
+		}
+	}
+	//Boxes over each character icon to select
+	>div {
+		position: absolute;
+		z-index: 20;
+		width: $cc-width;
+		height: 165px;
+		margin-top: 50px;
+	}
 }
 
 .scout {margin-left: 282px; }
-.soldier {margin-left: 392px; }
-.pyro {margin-left: 502px; }
+.soldier {margin-left: 282px + $cc-width; }
+.pyro {margin-left: 282px + $cc-width * 2; }
+
 .demoman {margin-left: 710px; }
-.heavy {margin-left: 820px; }
-.engy {margin-left: 930px; }
+.heavy {margin-left: 710px + $cc-width; }
+.engy {margin-left: 710px + $cc-width * 2; }
+
 .medic {margin-left: 1125px; }
-.sniper {margin-left: 1235px; }
-.spy {margin-left: 1345px; }
+.sniper {margin-left: 1125px + $cc-width; }
+.spy {margin-left: 1125px + $cc-width * 2; }
+
 .random {margin-left: 1522px; }
 
 .select-continue-button {
@@ -222,7 +221,7 @@ body {
     z-index: 0;
 }
 
-/*Seperate sky to hide bulletholes*/
+//Seperate sky to hide bulletholes
 #sky {
     position: absolute;
     z-index: 3;
@@ -244,11 +243,10 @@ body {
     margin-left: 700px;
     text-align: right;
     cursor: default;
-}
-
-.class-button:hover {
-    background: #924738;
-    border: #773A2E 4px solid;
+	&:hover {
+		background: #924738;
+		border: #773A2E 4px solid;
+	}
 }
 
 #hud {
@@ -297,8 +295,7 @@ body {
     opacity: 0;
     color: white;
     text-shadow: 1px 1px black;
-    -webkit-animation: flash 1s ease-in-out 3s 6 alternate;
-    animation: flash 1s ease-in-out 3s 6 alternate;
+	@include animation(flash 1s ease-in-out 3s 6 alternate);
 
 }
 
@@ -392,7 +389,7 @@ body {
 }
 
 .crit {
-    font-family: 'TF2', Times, serif;
+    font-family: "TF2", Times, serif;
     text-align: center;
     font-style: italic;
     line-height: 1;
@@ -417,8 +414,6 @@ body {
 
 @font-face {
 	font-family: 'TF2 chalk';
-	font-style: normal;
-	font-weight: normal;
 	src: url('../font/tf2chalk.woff') format('woff');
 	font-weight: normal;
     font-style: normal;
