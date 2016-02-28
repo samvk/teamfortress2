@@ -1,4 +1,15 @@
+@import "compass/reset";
 @import "compass/css3";
+
+@mixin drag-none {
+	-moz-user-select: -moz-none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	user-drag: none;
+	-webkit-user-drag: none;
+	-webkit-touch-callout: none;
+}
 
 //Remove default bordering
 html, body {
@@ -8,10 +19,7 @@ html, body {
 
 //prevent dragging and scrolling
 body {
-	@include user-select(none);
-    user-drag: none; 
-    -webkit-user-drag: none;
-    -webkit-touch-callout: none;
+	@include drag-none;
     overflow: hidden;
 }
 
@@ -67,7 +75,7 @@ body {
     position: absolute;
 	width: 1920px;
 	text-align: center;
-    top: 284px;
+    top: 410px;
     font-family: 'Anton', Arial, serif;
     text-transform: uppercase;
     font-size: 100px;
@@ -81,7 +89,7 @@ body {
 	@include animation(flash 1s ease-in-out 6 alternate);
 }
 
-.high-score-parent{
+.highscore-parent{
 	position: relative;
 	width: 1920px;
 }
@@ -89,7 +97,7 @@ body {
 .highscore-list {
 	opacity: 0;
     position: absolute;
-    top: 210px;
+    top: 280px;
 	width: 460px;
 	left: 50%;
 	transform: translateX(-50%);
@@ -114,7 +122,6 @@ body {
 	text-decoration: underline;
 	font-size: 54px;
 	text-align: center;
-	margin-bottom: -25px;
 }
 
 #last-played {
@@ -289,7 +296,7 @@ $cc-width: 110px;
     position: absolute;
     z-index: 10;
     font-size: 28px;
-    margin-top: 878px;
+    margin-top: 900px;
     margin-left: 1680px;
     font-weight: 800;
     opacity: 0;
