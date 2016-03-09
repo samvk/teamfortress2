@@ -424,153 +424,122 @@ $(document).ready(function () {
 		playAudio($("#hover")[0]);
 	}
 
-	function chooseScout() {
+	function chooseCharacter(classChoice, id) {
 		removeActive();
-		activeCharacter = character.scout;
-		$("#scout").addClass("active");
-	}
-
-	function chooseSoldier() {
-		removeActive();
-		activeCharacter = character.soldier;
-		$("#soldier").addClass("active");
-	}
-
-	function choosePyro() {
-		removeActive();
-		activeCharacter = character.pyro;
-		$("#pyro").addClass("active");
-	}
-
-	function chooseDemoman() {
-		removeActive();
-		activeCharacter = character.demoman;
-		$("#demoman").addClass("active");
-	}
-
-	function chooseHeavy() {
-		removeActive();
-		activeCharacter = character.heavy;
-		$("#heavy").addClass("active");
-	}
-
-	function chooseEngy() {
-		removeActive();
-		activeCharacter = character.engy;
-		$("#engy").addClass("active");
-	}
-
-	function chooseMedic() {
-		removeActive();
-		activeCharacter = character.medic;
-		$("#medic").addClass("active");
-	}
-
-	function chooseSniper() {
-		removeActive();
-		activeCharacter = character.sniper;
-		$("#sniper").addClass("active");
-	}
-
-	function chooseSpy() {
-		removeActive();
-		activeCharacter = character.spy;
-		$("#spy").addClass("active");
+		activeCharacter = classChoice;
+		$(id).addClass("active");
 	}
 
 	function chooseRandom() {
-		var classList = [chooseScout, chooseSoldier, choosePyro, chooseDemoman, chooseHeavy, chooseEngy, chooseMedic, chooseSniper, chooseSpy],
-			oldCharacter = activeCharacter;
+		var classChoiceList = [character.scout, character.soldier, character.pyro, character.demoman, character.heavy, character.engy, character.medic, character.sniper, character.spy];
+		var classIdList = ["#scout", "#soldier", "#pyro", "#demoman", "#heavy", "#engy", "#medic", "#sniper", "#spy"];
+
+		var oldCharacter = activeCharacter;
 		//prevent random from picking previous character again
 		while (activeCharacter === oldCharacter) {
-			classList[Math.floor(Math.random() * 9)]();
+			var randomChoice = Math.floor(Math.random() * 9);
+			chooseCharacter(classChoiceList[randomChoice], classIdList[randomChoice]);
+			//characterList[Math.floor(Math.random() * 9)]();
 		}
 		$("#random").addClass("active");
 	}
 
 	$(".scout").mouseenter(function () {
-		chooseScout();
+		chooseCharacter(character.scout, "#scout");
 	});
+
 	$(".soldier").mouseenter(function () {
-		chooseSoldier();
+		chooseCharacter(character.soldier, "#soldier");
 	});
+
 	$(".pyro").mouseenter(function () {
-		choosePyro();
+		chooseCharacter(character.pyro, "#pyro");
 	});
+
 	$(".demoman").mouseenter(function () {
-		chooseDemoman();
+		chooseCharacter(character.demoman, "#demoman");
 	});
+
 	$(".heavy").mouseenter(function () {
-		chooseHeavy();
+		chooseCharacter(character.heavy, "#heavy");
 	});
+
 	$(".engy").mouseenter(function () {
-		chooseEngy();
+		chooseCharacter(character.engy, "#engy");
 	});
+
 	$(".medic").mouseenter(function () {
-		chooseMedic();
+		chooseCharacter(character.medic, "#medic");
 	});
+
 	$(".sniper").mouseenter(function () {
-		chooseSniper();
+		chooseCharacter(character.sniper, "#sniper");
 	});
+
 	$(".spy").mouseenter(function () {
-		chooseSpy();
+		chooseCharacter(character.spy, "#spy");
 	});
+
 	$(".random").mouseenter(function () {
 		chooseRandom();
 	});
 
-	//chooses class on double keydown
-	function chooseClassKey(activeClass, chooseClass) {
-		if ($(activeClass).hasClass("active")) {
-			openGameScreen();
-		} else {
-			chooseClass();
-		}
-	}
-
-	//choose class (key)
+	//choose class (key) and other keys
 	$(document).keydown(function (key) {
 		if (characterScreen === true) {
 			switch (parseInt(key.which, 10)) {
+				//"1"
 			case 49:
-				chooseClassKey("#scout", chooseScout);
+				chooseCharacter(character.scout, "#scout");
 				break;
+				//"2"
 			case 50:
-				chooseClassKey("#soldier", chooseSoldier);
+				chooseCharacter(character.soldier, "#soldier");
 				break;
+				//"3"
 			case 51:
-				chooseClassKey("#pyro", choosePyro);
+				chooseCharacter(character.pyro, "#pyro");
 				break;
+				//"4"
 			case 52:
-				chooseClassKey("#demoman", chooseDemoman);
+				chooseCharacter(character.demoman, "#demoman");
 				break;
+				//"5"
 			case 53:
-				chooseClassKey("#heavy", chooseHeavy);
+				chooseCharacter(character.heavy, "#heavy");
 				break;
+				//"6"
 			case 54:
-				chooseClassKey("#engy", chooseEngy);
+				chooseCharacter(character.engy, "#engy");
 				break;
+				//"7"
 			case 55:
-				chooseClassKey("#medic", chooseMedic);
+				chooseCharacter(character.medic, "#medic");
 				break;
+				//"8"
 			case 56:
-				chooseClassKey("#sniper", chooseSniper);
+				chooseCharacter(character.sniper, "#sniper");
 				break;
+				//"9"
 			case 57:
-				chooseClassKey("#spy", chooseSpy);
+				chooseCharacter(character.spy, "#spy");
 				break;
+				//"0"
 			case 48:
-				chooseClassKey("#random", chooseRandom);
+				chooseRandom();
 				break;
+				//"enter/return"
 			case 13:
 				openGameScreen();
 				break;
 			}
 		} else if (characterScreen === false) {
 			switch (parseInt(key.which, 10)) {
+				//","
 			case 188:
 				openCharacterScreen();
 				break;
+				//"r"
 			case 82:
 				reloading();
 				break;
