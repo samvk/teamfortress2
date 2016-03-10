@@ -81,6 +81,26 @@ $(document).ready(function () {
 		pointCount,
 		oldHighScore;
 
+	/****************Preload images*******************/
+
+	//preload images after start screen loads
+	function imagePreloader() {
+		var imageList = [];
+
+		$.each(className, function (i) {
+			imageList.push("img/cursors/" + className[i] + ".png");
+			imageList.push("img/bulletholes/" + className[i] + ".png");
+			imageList.push("img/hud/" + className[i] + ".png");
+		});
+
+		var newImage = [];
+		var i;
+		for (i = 0; i < imageList.length; i++) {
+			newImage[i] = new Image();
+			newImage[i].src = imageList[i];
+		}
+	}
+
 	/******************TF2 functions*****************/
 
 	//loading screen
@@ -616,49 +636,5 @@ $(document).ready(function () {
 	$(document).on("contextmenu", function () {
 		return false;
 	});
-
-	/****************Preload images*******************/
-
-	//preload images after start screen loads
-	function imagePreloader() {
-		var imageList = [
-			//cursors
-			"img/cursors/scout.png",
-			"img/cursors/soldier.png",
-			"img/cursors/pyro.png",
-			"img/cursors/demoman.png",
-			"img/cursors/heavy.png",
-			"img/cursors/engy.png",
-			"img/cursors/medic.png",
-			"img/cursors/sniper.png",
-			"img/cursors/spy.png",
-			//bulletholes
-			"img/bulletholes/scout.png",
-			"img/bulletholes/soldier.png",
-			"img/bulletholes/pyro.png",
-			"img/bulletholes/demoman.png",
-			"img/bulletholes/heavy.png",
-			"img/bulletholes/engy.png",
-			"img/bulletholes/medic.png",
-			"img/bulletholes/sniper.png",
-			"img/bulletholes/spy.png",
-			//HUDs
-			"img/hud/scout.png",
-			"img/hud/soldier.png",
-			"img/hud/pyro.png",
-			"img/hud/demoman.png",
-			"img/hud/heavy.png",
-			"img/hud/engy.png",
-			"img/hud/medic.png",
-			"img/hud/sniper.png",
-			"img/hud/spy.png"
-		];
-		var newImage = [];
-		var i;
-		for (i = 0; i < imageList.length; i++) {
-			newImage[i] = new Image();
-			newImage[i].src = imageList[i];
-		}
-	}
 
 });
