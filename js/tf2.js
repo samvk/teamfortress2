@@ -15,7 +15,7 @@ $(document).ready(function () {
 		this.points = points;
 	}
 
-	var character = {
+	var char = {
 		scout: new Character("scout", 6, 32, 0, 8, 550, 1400, 10),
 		soldier: new Character("soldier", 4, 20, 850, 0, 2000, 2100, 20),
 		pyro: new Character("pyro", 200, 0, 0, 0, 100, 300, 2),
@@ -55,7 +55,7 @@ $(document).ready(function () {
 
 	/*****************TF2 variables******************/
 
-	var activeCharacter = character.heavy,
+	var activeChar = char.heavy,
 
 		ammoLeft,
 		ammoCarried,
@@ -129,9 +129,9 @@ $(document).ready(function () {
 
 	//reload functions
 	function reloadAmmo() {
-		if (totalAmmo >= activeCharacter.ammoLeft) {
-			ammoCarried = ammoCarried - (activeCharacter.ammoLeft - ammoLeft);
-			ammoLeft = activeCharacter.ammoLeft;
+		if (totalAmmo >= activeChar.ammoLeft) {
+			ammoCarried = ammoCarried - (activeChar.ammoLeft - ammoLeft);
+			ammoLeft = activeChar.ammoLeft;
 		} else {
 			ammoLeft = ammoLeft + ammoCarried;
 			ammoCarried = 0;
@@ -139,7 +139,7 @@ $(document).ready(function () {
 	}
 
 	function reloading() {
-		if (alreadyReloading === false && ammoLeft !== activeCharacter.ammoLeft && ammoCarried !== 0 && noShooting === false) {
+		if (alreadyReloading === false && ammoLeft !== activeChar.ammoLeft && ammoCarried !== 0 && noShooting === false) {
 			alreadyReloading = true;
 			playAudio($("#reload")[0]);
 			noShooting = true;
@@ -149,40 +149,40 @@ $(document).ready(function () {
 				alreadyReloading = false;
 				reloadAmmo();
 				updateText();
-			}, activeCharacter.reloadTime);
+			}, activeChar.reloadTime);
 		}
 	}
 
 	//update/change speak line
 	function rollSpeak() {
-		$("#speak").attr("src", "audio/" + activeCharacter.name + "/speak" + Math.floor(Math.random() * 3) + ".mp3");
+		$("#speak").attr("src", "audio/" + activeChar.name + "/speak" + Math.floor(Math.random() * 3) + ".mp3");
 	}
 
 	//update sound/cursor/bullethole
 	function setValue() {
-		$("#cursor").attr("src", "img/cursors/" + activeCharacter.name + ".png");
-		$("#hud").attr("src", "img/hud/" + activeCharacter.name + ".png");
-		$("#draw").attr("src", "audio/" + activeCharacter.name + "/gundraw.mp3");
-		$("#gunshot").attr("src", "audio/" + activeCharacter.name + "/shoot.mp3");
-		$("#gunshot2").attr("src", "audio/" + activeCharacter.name + "/shoot.mp3");
-		$("#reload").attr("src", "audio/" + activeCharacter.name + "/reload.mp3");
-		$("#no-ammo").attr("src", "audio/" + activeCharacter.name + "/noammo.mp3");
-		$("#no-ammo2").attr("src", "audio/" + activeCharacter.name + "/noammo.mp3");
-		$("#no").attr("src", "audio/" + activeCharacter.name + "/no.mp3");
+		$("#cursor").attr("src", "img/cursors/" + activeChar.name + ".png");
+		$("#hud").attr("src", "img/hud/" + activeChar.name + ".png");
+		$("#draw").attr("src", "audio/" + activeChar.name + "/gundraw.mp3");
+		$("#gunshot").attr("src", "audio/" + activeChar.name + "/shoot.mp3");
+		$("#gunshot2").attr("src", "audio/" + activeChar.name + "/shoot.mp3");
+		$("#reload").attr("src", "audio/" + activeChar.name + "/reload.mp3");
+		$("#no-ammo").attr("src", "audio/" + activeChar.name + "/noammo.mp3");
+		$("#no-ammo2").attr("src", "audio/" + activeChar.name + "/noammo.mp3");
+		$("#no").attr("src", "audio/" + activeChar.name + "/no.mp3");
 		rollSpeak();
 	}
 
 	//update bullethole
 	function updateBullet() {
 		setTimeout(function () {
-			$(".bullet").css("background", "url(img/bulletholes/" + activeCharacter.name + ".png)");
-		}, activeCharacter.bulletholeDelay);
+			$(".bullet").css("background", "url(img/bulletholes/" + activeChar.name + ".png)");
+		}, activeChar.bulletholeDelay);
 	}
 
 	//full ammo function
 	function fullAmmo() {
-		ammoLeft = activeCharacter.ammoLeft;
-		ammoCarried = activeCharacter.ammoCarried;
+		ammoLeft = activeChar.ammoLeft;
+		ammoCarried = activeChar.ammoCarried;
 		totalAmmo = ammoLeft + ammoCarried;
 		updateText();
 		rollSpeak();
@@ -229,15 +229,15 @@ $(document).ready(function () {
 		characterScreen = false;
 		//in case random is selected
 		$("#random").removeClass("active");
-		if (activeCharacter !== character.pyro && activeCharacter !== character.heavy && activeCharacter !== character.sniper) {
+		if (activeChar !== char.pyro && activeChar !== char.heavy && activeChar !== char.sniper) {
 			reloadLine();
 		}
-		if (activeCharacter === character.pyro || activeCharacter === character.heavy) {
+		if (activeChar === char.pyro || activeChar === char.heavy) {
 			$(".total-ammo").css("opacity", 0);
 		} else {
 			$(".total-ammo").css("opacity", 1);
 		}
-		oldHighScore = getCookie(activeCharacter.name + "highscore");
+		oldHighScore = getCookie(activeChar.name + "highscore");
 		pointCount = 0;
 	}
 
@@ -290,7 +290,7 @@ $(document).ready(function () {
 			noShooting = true;
 			setTimeout(function () {
 				noShooting = false;
-			}, activeCharacter.bulletDelay);
+			}, activeChar.bulletDelay);
 			if (totalAmmo % 2) {
 				playAudio($("#no-ammo")[0]);
 			} else {
@@ -304,7 +304,7 @@ $(document).ready(function () {
 		} else {
 			ammoLeft--;
 			totalAmmo--;
-			pointCount += activeCharacter.points;
+			pointCount += activeChar.points;
 			//prevent audio delay by flipping between audio tags
 			if (totalAmmo % 2) {
 				playAudio($("#gunshot")[0]);
@@ -314,16 +314,16 @@ $(document).ready(function () {
 			noShooting = true;
 			setTimeout(function () {
 				noShooting = false;
-			}, activeCharacter.bulletDelay);
+			}, activeChar.bulletDelay);
 			if (ammoLeft <= 0) {
 				clearInterval(mouseHeldDown);
 				setTimeout(function () {
 					reloading();
-				}, activeCharacter.bulletDelay);
+				}, activeChar.bulletDelay);
 			}
 			//check if new high score
 			if (pointCount > oldHighScore) {
-				setCookie(activeCharacter.name + "highscore", pointCount, 365);
+				setCookie(activeChar.name + "highscore", pointCount, 365);
 				//don't flash "new highscore" on first play
 				if (oldHighScore !== "") {
 					$(".highscore-text").addClass("highscore-animate");
@@ -336,15 +336,15 @@ $(document).ready(function () {
 	function onLastBullet() {
 		if (totalAmmo === 0 && alreadyOnLastBullet === false) {
 			alreadyOnLastBullet = true;
-			if (activeCharacter === character.heavy) {
+			if (activeChar === char.heavy) {
 				playAudio($("#wind-down")[0]);
 			}
 			setTimeout(function () {
 				playAudio($("#speak")[0]);
-			}, activeCharacter.bulletDelay);
-			var currentCharacter = activeCharacter;
+			}, activeChar.bulletDelay);
+			var currentCharacter = activeChar;
 			setTimeout(function () {
-				if (currentCharacter === activeCharacter) {
+				if (currentCharacter === activeChar) {
 					$("#crate").fadeIn(600);
 				}
 			}, 2000);
@@ -353,11 +353,11 @@ $(document).ready(function () {
 
 	//random circle bullet spread
 	function xSpread() {
-		return Math.floor(Math.random() * (2 * activeCharacter.radius) - activeCharacter.radius); //random x-value within spread area
+		return Math.floor(Math.random() * (2 * activeChar.radius) - activeChar.radius); //random x-value within spread area
 	}
 
 	function ySpread(x) {
-		var y = Math.sqrt((Math.pow(activeCharacter.radius, 2)) - Math.pow(x, 2)); //y-value = hypotenouse^2 minus x-value^2
+		var y = Math.sqrt((Math.pow(activeChar.radius, 2)) - Math.pow(x, 2)); //y-value = hypotenouse^2 minus x-value^2
 		return Math.floor(Math.random() * (2 * y) - y); //random y-value (within set limits based on x-value) within spread area
 	}
 
@@ -391,7 +391,7 @@ $(document).ready(function () {
 					});
 				}, 20000);
 				//headshot
-				if (headCheck === true && (activeCharacter === character.spy || activeCharacter === character.sniper)) {
+				if (headCheck === true && (activeChar === char.spy || activeChar === char.sniper)) {
 					$("<p class='crit'>Critical<br>Hit!!!</p>").appendTo(".headshot").css({
 						left: xPosition - 56,
 						top: yPosition - 100
@@ -426,17 +426,17 @@ $(document).ready(function () {
 
 	function chooseCharacter(classChoice, id) {
 		removeActive();
-		activeCharacter = classChoice;
+		activeChar = classChoice;
 		$(id).addClass("active");
 	}
 
 	function chooseRandom() {
-		var classChoiceList = [character.scout, character.soldier, character.pyro, character.demoman, character.heavy, character.engy, character.medic, character.sniper, character.spy];
+		var classChoiceList = [char.scout, char.soldier, char.pyro, char.demoman, char.heavy, char.engy, char.medic, char.sniper, char.spy];
 		var classIdList = ["#scout", "#soldier", "#pyro", "#demoman", "#heavy", "#engy", "#medic", "#sniper", "#spy"];
 
-		var oldCharacter = activeCharacter;
+		var oldCharacter = activeChar;
 		//prevent random from picking previous character again
-		while (activeCharacter === oldCharacter) {
+		while (activeChar === oldCharacter) {
 			var randomChoice = Math.floor(Math.random() * 9);
 			chooseCharacter(classChoiceList[randomChoice], classIdList[randomChoice]);
 			//characterList[Math.floor(Math.random() * 9)]();
@@ -445,39 +445,39 @@ $(document).ready(function () {
 	}
 
 	$(".scout").mouseenter(function () {
-		chooseCharacter(character.scout, "#scout");
+		chooseCharacter(char.scout, "#scout");
 	});
 
 	$(".soldier").mouseenter(function () {
-		chooseCharacter(character.soldier, "#soldier");
+		chooseCharacter(char.soldier, "#soldier");
 	});
 
 	$(".pyro").mouseenter(function () {
-		chooseCharacter(character.pyro, "#pyro");
+		chooseCharacter(char.pyro, "#pyro");
 	});
 
 	$(".demoman").mouseenter(function () {
-		chooseCharacter(character.demoman, "#demoman");
+		chooseCharacter(char.demoman, "#demoman");
 	});
 
 	$(".heavy").mouseenter(function () {
-		chooseCharacter(character.heavy, "#heavy");
+		chooseCharacter(char.heavy, "#heavy");
 	});
 
 	$(".engy").mouseenter(function () {
-		chooseCharacter(character.engy, "#engy");
+		chooseCharacter(char.engy, "#engy");
 	});
 
 	$(".medic").mouseenter(function () {
-		chooseCharacter(character.medic, "#medic");
+		chooseCharacter(char.medic, "#medic");
 	});
 
 	$(".sniper").mouseenter(function () {
-		chooseCharacter(character.sniper, "#sniper");
+		chooseCharacter(char.sniper, "#sniper");
 	});
 
 	$(".spy").mouseenter(function () {
-		chooseCharacter(character.spy, "#spy");
+		chooseCharacter(char.spy, "#spy");
 	});
 
 	$(".random").mouseenter(function () {
@@ -490,39 +490,39 @@ $(document).ready(function () {
 			switch (parseInt(key.which, 10)) {
 				//"1"
 			case 49:
-				chooseCharacter(character.scout, "#scout");
+				chooseCharacter(char.scout, "#scout");
 				break;
 				//"2"
 			case 50:
-				chooseCharacter(character.soldier, "#soldier");
+				chooseCharacter(char.soldier, "#soldier");
 				break;
 				//"3"
 			case 51:
-				chooseCharacter(character.pyro, "#pyro");
+				chooseCharacter(char.pyro, "#pyro");
 				break;
 				//"4"
 			case 52:
-				chooseCharacter(character.demoman, "#demoman");
+				chooseCharacter(char.demoman, "#demoman");
 				break;
 				//"5"
 			case 53:
-				chooseCharacter(character.heavy, "#heavy");
+				chooseCharacter(char.heavy, "#heavy");
 				break;
 				//"6"
 			case 54:
-				chooseCharacter(character.engy, "#engy");
+				chooseCharacter(char.engy, "#engy");
 				break;
 				//"7"
 			case 55:
-				chooseCharacter(character.medic, "#medic");
+				chooseCharacter(char.medic, "#medic");
 				break;
 				//"8"
 			case 56:
-				chooseCharacter(character.sniper, "#sniper");
+				chooseCharacter(char.sniper, "#sniper");
 				break;
 				//"9"
 			case 57:
-				chooseCharacter(character.spy, "#spy");
+				chooseCharacter(char.spy, "#spy");
 				break;
 				//"0"
 			case 48:
@@ -552,13 +552,13 @@ $(document).ready(function () {
 	$(".background").mousedown(function (e) {
 		switch (e.which) {
 		case 1:
-			if (activeCharacter === character.heavy && characterScreen === false) {
+			if (activeChar === char.heavy && characterScreen === false) {
 				playAudio($("#wind-up")[0]);
 			} else {
 				shooting();
 			}
 			clearInterval(mouseHeldDown);
-			mouseHeldDown = setInterval(shooting, activeCharacter.bulletDelay + 50);
+			mouseHeldDown = setInterval(shooting, activeChar.bulletDelay + 50);
 			break;
 
 		}
@@ -580,7 +580,7 @@ $(document).ready(function () {
 
 	$(".background").mouseup(function () {
 		clearInterval(mouseHeldDown);
-		if (activeCharacter === character.heavy && characterScreen === false) {
+		if (activeChar === char.heavy && characterScreen === false) {
 			playAudio($("#wind-down")[0]);
 		}
 	});
@@ -598,7 +598,7 @@ $(document).ready(function () {
 			setTimeout(function () {
 				fullAmmo();
 				noShooting = false;
-			}, 600 + activeCharacter.reloadTime);
+			}, 600 + activeChar.reloadTime);
 			break;
 		}
 	});
