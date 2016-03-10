@@ -57,6 +57,8 @@ $(document).ready(function () {
 
 	var activeChar = char.heavy,
 
+		className = ["scout", "soldier", "pyro", "demoman", "heavy", "engy", "medic", "sniper", "spy"],
+
 		ammoLeft,
 		ammoCarried,
 		totalAmmo,
@@ -91,7 +93,6 @@ $(document).ready(function () {
 	//highscore(map) screen
 	(function setHighScore() {
 		//high score list
-		var className = ["scout", "soldier", "pyro", "demoman", "heavy", "engy", "medic", "sniper", "spy"];
 		var i;
 		for (i = 0; i < className.length; i++) {
 			//find each classes high score (if it exists)
@@ -419,65 +420,58 @@ $(document).ready(function () {
 	//Choose character screen for mouse and keyboard
 
 	//choose Character functions
-	function removeActive() {
+
+	function chooseChar(charChoice) {
 		$(".active").removeClass("active");
+		$("#" + charChoice).addClass("active");
+		activeChar = char[charChoice];
 		playAudio($("#hover")[0]);
 	}
 
-	function chooseCharacter(classChoice, id) {
-		removeActive();
-		activeChar = classChoice;
-		$(id).addClass("active");
-	}
-
 	function chooseRandom() {
-		var classChoiceList = [char.scout, char.soldier, char.pyro, char.demoman, char.heavy, char.engy, char.medic, char.sniper, char.spy];
-		var classIdList = ["#scout", "#soldier", "#pyro", "#demoman", "#heavy", "#engy", "#medic", "#sniper", "#spy"];
-
-		var oldCharacter = activeChar;
 		//prevent random from picking previous character again
-		while (activeChar === oldCharacter) {
+		var oldChar = activeChar;
+		while (activeChar === oldChar) {
 			var randomChoice = Math.floor(Math.random() * 9);
-			chooseCharacter(classChoiceList[randomChoice], classIdList[randomChoice]);
-			//characterList[Math.floor(Math.random() * 9)]();
+			chooseChar([className[randomChoice]]);
 		}
 		$("#random").addClass("active");
 	}
 
 	$(".scout").mouseenter(function () {
-		chooseCharacter(char.scout, "#scout");
+		chooseChar("scout");
 	});
 
 	$(".soldier").mouseenter(function () {
-		chooseCharacter(char.soldier, "#soldier");
+		chooseChar("soldier");
 	});
 
 	$(".pyro").mouseenter(function () {
-		chooseCharacter(char.pyro, "#pyro");
+		chooseChar("pyro");
 	});
 
 	$(".demoman").mouseenter(function () {
-		chooseCharacter(char.demoman, "#demoman");
+		chooseChar("demoman");
 	});
 
 	$(".heavy").mouseenter(function () {
-		chooseCharacter(char.heavy, "#heavy");
+		chooseChar("heavy");
 	});
 
 	$(".engy").mouseenter(function () {
-		chooseCharacter(char.engy, "#engy");
+		chooseChar("engy");
 	});
 
 	$(".medic").mouseenter(function () {
-		chooseCharacter(char.medic, "#medic");
+		chooseChar("medic");
 	});
 
 	$(".sniper").mouseenter(function () {
-		chooseCharacter(char.sniper, "#sniper");
+		chooseChar("sniper");
 	});
 
 	$(".spy").mouseenter(function () {
-		chooseCharacter(char.spy, "#spy");
+		chooseChar("spy");
 	});
 
 	$(".random").mouseenter(function () {
@@ -490,39 +484,39 @@ $(document).ready(function () {
 			switch (parseInt(key.which, 10)) {
 				//"1"
 			case 49:
-				chooseCharacter(char.scout, "#scout");
+				chooseChar("scout");
 				break;
 				//"2"
 			case 50:
-				chooseCharacter(char.soldier, "#soldier");
+				chooseChar("soldier");
 				break;
 				//"3"
 			case 51:
-				chooseCharacter(char.pyro, "#pyro");
+				chooseChar("pyro");
 				break;
 				//"4"
 			case 52:
-				chooseCharacter(char.demoman, "#demoman");
+				chooseChar("demoman");
 				break;
 				//"5"
 			case 53:
-				chooseCharacter(char.heavy, "#heavy");
+				chooseChar("heavy");
 				break;
 				//"6"
 			case 54:
-				chooseCharacter(char.engy, "#engy");
+				chooseChar("engy");
 				break;
 				//"7"
 			case 55:
-				chooseCharacter(char.medic, "#medic");
+				chooseChar("medic");
 				break;
 				//"8"
 			case 56:
-				chooseCharacter(char.sniper, "#sniper");
+				chooseChar("sniper");
 				break;
 				//"9"
 			case 57:
-				chooseCharacter(char.spy, "#spy");
+				chooseChar("spy");
 				break;
 				//"0"
 			case 48:
