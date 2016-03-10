@@ -57,7 +57,7 @@ $(document).ready(function () {
 
 	var activeChar = char.heavy,
 
-		className = ["scout", "soldier", "pyro", "demoman", "heavy", "engy", "medic", "sniper", "spy"],
+		charName = ["scout", "soldier", "pyro", "demoman", "heavy", "engy", "medic", "sniper", "spy"],
 
 		ammoLeft,
 		ammoCarried,
@@ -87,10 +87,10 @@ $(document).ready(function () {
 	function imagePreloader() {
 		var imageList = [];
 
-		$.each(className, function (i) {
-			imageList.push("img/cursors/" + className[i] + ".png");
-			imageList.push("img/bulletholes/" + className[i] + ".png");
-			imageList.push("img/hud/" + className[i] + ".png");
+		$.each(charName, function (i) {
+			imageList.push("img/cursors/" + charName[i] + ".png");
+			imageList.push("img/bulletholes/" + charName[i] + ".png");
+			imageList.push("img/hud/" + charName[i] + ".png");
 		});
 
 		var newImage = [];
@@ -114,10 +114,10 @@ $(document).ready(function () {
 	(function setHighScore() {
 		//high score list
 		var i;
-		for (i = 0; i < className.length; i++) {
+		for (i = 0; i < charName.length; i++) {
 			//find each classes high score (if it exists)
-			var highscoreNumber = getCookie(className[i] + "highscore") !== "" ? getCookie(className[i] + "highscore") : "0";
-			$("#" + className[i] + "-highscore").text(highscoreNumber);
+			var highscoreNumber = getCookie(charName[i] + "highscore") !== "" ? getCookie(charName[i] + "highscore") : "0";
+			$("#" + charName[i] + "-highscore").text(highscoreNumber);
 		}
 
 		//last played date
@@ -452,8 +452,8 @@ $(document).ready(function () {
 		//prevent random from picking previous character again
 		var oldChar = activeChar;
 		while (activeChar === oldChar) {
-			var randomChoice = Math.floor(Math.random() * 9);
-			chooseChar([className[randomChoice]]);
+			var randomChoice = Math.floor(Math.random() * charName.length);
+			chooseChar([charName[randomChoice]]);
 		}
 		$("#random").addClass("active");
 	}
