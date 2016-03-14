@@ -64,7 +64,7 @@ $(document).ready(function () {
 		totalAmmo,
 
 
-		characterScreen = null,
+		characterScreenOpen = false,
 
 		noShooting = true,
 
@@ -76,7 +76,7 @@ $(document).ready(function () {
 		xPosition,
 		yPosition,
 
-		headCheck,
+		headHovering,
 
 		pointCount,
 		oldHighScore;
@@ -160,7 +160,7 @@ $(document).ready(function () {
 	}
 
 	function reloading() {
-		if (alreadyReloading === false && ammoLeft !== activeChar.ammoLeft && ammoCarried !== 0 && noShooting === false) {
+		if (!alreadyReloading && ammoLeft !== activeChar.ammoLeft && ammoCarried !== 0 && !noShooting) {
 			alreadyReloading = true;
 			playAudio($("#reload")[0]);
 			noShooting = true;
@@ -222,9 +222,9 @@ $(document).ready(function () {
 
 	//check for headshot
 	$(".headshot > div").hover(function () {
-		headCheck = true;
+		headHovering = true;
 	}, function () {
-		headCheck = false;
+		headHovering = false;
 	});
 
 	//reload line animation
@@ -247,7 +247,7 @@ $(document).ready(function () {
 		setTimeout(function () {
 			playAudio($("#draw")[0]);
 		}, 300);
-		characterScreen = false;
+		characterScreenOpen = false;
 		//in case random is selected
 		$("#random").removeClass("active");
 		if (activeChar !== char.pyro && activeChar !== char.heavy && activeChar !== char.sniper) {
@@ -265,7 +265,7 @@ $(document).ready(function () {
 	//open character choice screen
 	function openCharacterScreen() {
 		$(".character-selection").show();
-		characterScreen = true;
+		characterScreenOpen = true;
 		$(".bullet").hide();
 		$("#crate").hide();
 		$(".reload-line").remove();
@@ -294,7 +294,7 @@ $(document).ready(function () {
 		playAudio($("#button")[0]);
 		$(".flashing").remove();
 		$(".highscore-list").remove();
-		characterScreen = true;
+		characterScreenOpen = true;
 	});
 
 	//select screen continue
@@ -355,7 +355,7 @@ $(document).ready(function () {
 
 	//on & after final shot
 	function onLastBullet() {
-		if (totalAmmo === 0 && alreadyOnLastBullet === false) {
+		if (totalAmmo === 0 && !alreadyOnLastBullet) {
 			alreadyOnLastBullet = true;
 			if (activeChar === char.heavy) {
 				playAudio($("#wind-down")[0]);
@@ -384,7 +384,7 @@ $(document).ready(function () {
 
 	//shooting
 	function shooting() {
-		if (noShooting === false) {
+		if (!noShooting) {
 			//cursor animation
 			$("#cursor").stop().animate({
 				width: "168px",
@@ -412,7 +412,7 @@ $(document).ready(function () {
 					});
 				}, 20000);
 				//headshot
-				if (headCheck === true && (activeChar === char.spy || activeChar === char.sniper)) {
+				if (headHovering && (activeChar === char.spy || activeChar === char.sniper)) {
 					$("<p class='crit'>Critical<br>Hit!!!</p>").appendTo(".headshot").css({
 						left: xPosition - 56,
 						top: yPosition - 100
@@ -500,7 +500,7 @@ $(document).ready(function () {
 
 	//choose class (key) and other keys
 	$(document).keydown(function (key) {
-		if (characterScreen === true) {
+		if (characterScreenOpen) {
 			switch (parseInt(key.which, 10)) {
 				//"1"
 			case 49:
@@ -547,7 +547,7 @@ $(document).ready(function () {
 				openGameScreen();
 				break;
 			}
-		} else if (characterScreen === false) {
+		} else if (!characterScreenOpen) {
 			switch (parseInt(key.which, 10)) {
 				//","
 			case 188:
@@ -566,7 +566,7 @@ $(document).ready(function () {
 	$(".background").mousedown(function (e) {
 		switch (e.which) {
 		case 1:
-			if (activeChar === char.heavy && characterScreen === false) {
+				if (!characterScreenOpen && activeChar === char.heavy) {
 				playAudio($("#wind-up")[0]);
 			} else {
 				shooting();
@@ -594,7 +594,7 @@ $(document).ready(function () {
 
 	$(".background").mouseup(function () {
 		clearInterval(mouseHeldDown);
-		if (activeChar === char.heavy && characterScreen === false) {
+		if (!characterScreenOpen && activeChar === char.heavy) {
 			playAudio($("#wind-down")[0]);
 		}
 	});
