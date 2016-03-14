@@ -65,7 +65,7 @@ $(document).ready(function () {
 		totalAmmo,
 
 
-		characterScreenOpen = false,
+		characterScreenOpen = true,
 
 		noShooting = true,
 
