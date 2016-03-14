@@ -1,4 +1,6 @@
-/*global $ */
+/*jslint vars: true plusplus: true */
+/*global $, document, Image, window, setTimeout, setInterval, clearInterval */
+
 $(document).ready(function () {
 	"use strict";
 
@@ -40,8 +42,7 @@ $(document).ready(function () {
 	function getCookie(cname) {
 		var name = cname + "=";
 		var ca = document.cookie.split(';');
-		var i;
-		for (i = 0; i < ca.length; i++) {
+		for (var i = 0, caLength = ca.length; i < caLength; i++) {
 			var c = ca[i];
 			while (c.charAt(0) === " ") {
 				c = c.substring(1);
@@ -94,8 +95,7 @@ $(document).ready(function () {
 		});
 
 		var newImage = [];
-		var i;
-		for (i = 0; i < imageList.length; i++) {
+		for (var i = 0, imageListLength = imageList.length; i < imageListLength; i++) {
 			newImage[i] = new Image();
 			newImage[i].src = imageList[i];
 		}
@@ -113,8 +113,7 @@ $(document).ready(function () {
 	//highscore(map) screen
 	(function setHighScore() {
 		//high score list
-		var i;
-		for (i = 0; i < charName.length; i++) {
+		for (var i = 0, charNameLength = charName.length; i < charNameLength; i++) {
 			//find each classes high score (if it exists)
 			var highscoreNumber = getCookie(charName[i] + "highscore") !== "" ? getCookie(charName[i] + "highscore") : "0";
 			$("#" + charName[i] + "-highscore").text(highscoreNumber);
@@ -566,7 +565,7 @@ $(document).ready(function () {
 	$(".background").mousedown(function (e) {
 		switch (e.which) {
 		case 1:
-				if (!characterScreenOpen && activeChar === char.heavy) {
+			if (!characterScreenOpen && activeChar === char.heavy) {
 				playAudio($("#wind-up")[0]);
 			} else {
 				shooting();
