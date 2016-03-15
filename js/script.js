@@ -42,7 +42,7 @@ $(document).ready(function () {
 	function getCookie(cname) {
 		var name = cname + "=";
 		var ca = document.cookie.split(';');
-		for (var i = 0, caLength = ca.length; i < caLength; i++) {
+		for (var i = 0; i < ca.length; i++) {
 			var c = ca[i];
 			while (c.charAt(0) === " ") {
 				c = c.substring(1);
@@ -95,7 +95,7 @@ $(document).ready(function () {
 		});
 
 		var newImage = [];
-		for (var i = 0, imageListLength = imageList.length; i < imageListLength; i++) {
+		for (var i = 0; i < imageList.length; i++) {
 			newImage[i] = new Image();
 			newImage[i].src = imageList[i];
 		}
@@ -113,7 +113,7 @@ $(document).ready(function () {
 	//highscore(map) screen
 	(function setHighScore() {
 		//high score list
-		for (var i = 0, charNameLength = charName.length; i < charNameLength; i++) {
+		for (var i = 0; i < charName.length; i++) {
 			//find each classes high score (if it exists)
 			var highscoreNumber = getCookie(charName[i] + "highscore") !== "" ? getCookie(charName[i] + "highscore") : "0";
 			$("#" + charName[i] + "-highscore").text(highscoreNumber);
