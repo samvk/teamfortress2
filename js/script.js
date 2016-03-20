@@ -436,26 +436,26 @@ $(document).ready(function () {
 
 	/***********************************/
 
-	//Choose character screen for mouse and keyboard
-
-	function chooseRandom() {
-		//prevent random from picking previous character again
-		var oldChar = activeChar;
-		while (activeChar === oldChar) {
-			var randomChoice = Math.floor(Math.random() * charName.length);
-			$("." + charName[randomChoice]).trigger("mouseenter." + charName[randomChoice]);
-		}
-		$("#random").addClass("active");
-	}
+	//Choose character screen (for mouse and keyboard)
 
 	//choose Character function
 	$.fn.highlight = function (input) {
 		//event namespace to trigger on keypress
 		this.on("mouseenter." + input, function () {
-			$(".active").removeClass("active");
-			$("#" + input).addClass("active");
-			activeChar = char[input];
-			playAudio($("#hover")[0]);
+			if (input === "random") {
+				var oldChar = activeChar;
+				while (activeChar === oldChar) {
+					var randomChoice = Math.floor(Math.random() * charName.length);
+					$("." + charName[randomChoice]).trigger("mouseenter." + charName[randomChoice]);
+				}
+				$("#random").addClass("active");
+
+			} else {
+				$(".active").removeClass("active");
+				$("#" + input).addClass("active");
+				activeChar = char[input];
+				playAudio($("#hover")[0]);
+			}
 		});
 	};
 
@@ -468,9 +468,7 @@ $(document).ready(function () {
 	$(".medic").highlight("medic");
 	$(".sniper").highlight("sniper");
 	$(".spy").highlight("spy");
-	$(".random").mouseenter(function () {
-		chooseRandom();
-	});
+	$(".random").highlight("random");
 
 	//choose class (key) and other keys
 	$(document).keydown(function (key) {
@@ -515,7 +513,7 @@ $(document).ready(function () {
 				break;
 				//"0"
 			case 48:
-				chooseRandom();
+				$(".random").trigger("mouseenter.random");
 				break;
 				//"enter/return"
 			case 13:
