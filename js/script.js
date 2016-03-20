@@ -438,60 +438,49 @@ $(document).ready(function () {
 
 	//Choose character screen for mouse and keyboard
 
-	//choose Character functions
-
-	function chooseChar(charChoice) {
-		$(".active").removeClass("active");
-		$("#" + charChoice).addClass("active");
-		activeChar = char[charChoice];
-		playAudio($("#hover")[0]);
-	}
-
 	function chooseRandom() {
 		//prevent random from picking previous character again
 		var oldChar = activeChar;
 		while (activeChar === oldChar) {
 			var randomChoice = Math.floor(Math.random() * charName.length);
-			chooseChar([charName[randomChoice]]);
+			$("." + charName[randomChoice]).trigger("mouseenter." + charName[randomChoice]);
+			//chooseChar([charName[randomChoice]]);
 		}
 		$("#random").addClass("active");
 	}
 
-	$(".scout").mouseenter(function () {
+	//choose Character functions
+	$.fn.highlight = function (input) {
+		//event namespace to trigger on keypress
+		this.on("mouseenter." + input, function () {
+			$(".active").removeClass("active");
+			$("#" + input).addClass("active");
+			activeChar = char[input];
+			playAudio($("#hover")[0]);
+		});
+	};
+
+	/*$(".scout").mouseenter(function () {
 		chooseChar("scout");
-	});
+	});*/
 
-	$(".soldier").mouseenter(function () {
-		chooseChar("soldier");
-	});
+	$(".scout").highlight("scout");
 
-	$(".pyro").mouseenter(function () {
-		chooseChar("pyro");
-	});
+	$(".soldier").highlight("soldier");
 
-	$(".demoman").mouseenter(function () {
-		chooseChar("demoman");
-	});
+	$(".pyro").highlight("pyro");
 
-	$(".heavy").mouseenter(function () {
-		chooseChar("heavy");
-	});
+	$(".demoman").highlight("demoman");
 
-	$(".engy").mouseenter(function () {
-		chooseChar("engy");
-	});
+	$(".heavy").highlight("heavy");
 
-	$(".medic").mouseenter(function () {
-		chooseChar("medic");
-	});
+	$(".engy").highlight("engy");
 
-	$(".sniper").mouseenter(function () {
-		chooseChar("sniper");
-	});
+	$(".medic").highlight("medic");
 
-	$(".spy").mouseenter(function () {
-		chooseChar("spy");
-	});
+	$(".sniper").highlight("sniper");
+
+	$(".spy").highlight("spy");
 
 	$(".random").mouseenter(function () {
 		chooseRandom();
@@ -503,39 +492,40 @@ $(document).ready(function () {
 			switch (parseInt(key.which, 10)) {
 				//"1"
 			case 49:
-				chooseChar("scout");
+				//chooseChar("scout");
+				$(".scout").trigger("mouseenter.scout");
 				break;
 				//"2"
 			case 50:
-				chooseChar("soldier");
+				$(".soldier").trigger("mouseenter.soldier");
 				break;
 				//"3"
 			case 51:
-				chooseChar("pyro");
+				$(".pyro").trigger("mouseenter.pyro");
 				break;
 				//"4"
 			case 52:
-				chooseChar("demoman");
+				$(".demoman").trigger("mouseenter.demoman");
 				break;
 				//"5"
 			case 53:
-				chooseChar("heavy");
+				$(".heavy").trigger("mouseenter.heavy");
 				break;
 				//"6"
 			case 54:
-				chooseChar("engy");
+				$(".engy").trigger("mouseenter.engy");
 				break;
 				//"7"
 			case 55:
-				chooseChar("medic");
+				$(".medic").trigger("mouseenter.medic");
 				break;
 				//"8"
 			case 56:
-				chooseChar("sniper");
+				$(".sniper").trigger("mouseenter.sniper");
 				break;
 				//"9"
 			case 57:
-				chooseChar("spy");
+				$(".spy").trigger("mouseenter.spy");
 				break;
 				//"0"
 			case 48:
@@ -583,8 +573,9 @@ $(document).ready(function () {
 	});
 
 	//clear interval events    
-	$(document).on("blur", function () {
+	$(document).blur(function () {
 		clearInterval(mouseHeldDown);
+		console.log("blur");
 	});
 
 	$(".background").mouseleave(function () {
