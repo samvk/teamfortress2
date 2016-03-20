@@ -450,8 +450,6 @@ $(document).ready(function () {
 		});
 	});
 
-	/**********Choose character screen (for mouse and keyboard)**********/
-
 	//Choose character screen for mouse and keyboard
 
 	$(".choose-character div").mouseenter(function () {
