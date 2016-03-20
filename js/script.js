@@ -444,12 +444,11 @@ $(document).ready(function () {
 		while (activeChar === oldChar) {
 			var randomChoice = Math.floor(Math.random() * charName.length);
 			$("." + charName[randomChoice]).trigger("mouseenter." + charName[randomChoice]);
-			//chooseChar([charName[randomChoice]]);
 		}
 		$("#random").addClass("active");
 	}
 
-	//choose Character functions
+	//choose Character function
 	$.fn.highlight = function (input) {
 		//event namespace to trigger on keypress
 		this.on("mouseenter." + input, function () {
@@ -460,28 +459,15 @@ $(document).ready(function () {
 		});
 	};
 
-	/*$(".scout").mouseenter(function () {
-		chooseChar("scout");
-	});*/
-
 	$(".scout").highlight("scout");
-
 	$(".soldier").highlight("soldier");
-
 	$(".pyro").highlight("pyro");
-
 	$(".demoman").highlight("demoman");
-
 	$(".heavy").highlight("heavy");
-
 	$(".engy").highlight("engy");
-
 	$(".medic").highlight("medic");
-
 	$(".sniper").highlight("sniper");
-
 	$(".spy").highlight("spy");
-
 	$(".random").mouseenter(function () {
 		chooseRandom();
 	});
@@ -575,7 +561,6 @@ $(document).ready(function () {
 	//clear interval events    
 	$(document).blur(function () {
 		clearInterval(mouseHeldDown);
-		console.log("blur");
 	});
 
 	$(".background").mouseleave(function () {
