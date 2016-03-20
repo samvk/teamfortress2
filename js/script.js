@@ -466,61 +466,48 @@ $(document).ready(function () {
 	$(document).keydown(function (key) {
 		if (characterScreenOpen) {
 			switch (parseInt(key.which, 10)) {
-				//"1"
-			case 49:
-				chooseChar("scout");
-				break;
-				//"2"
-			case 50:
-				chooseChar("soldier");
-				break;
-				//"3"
-			case 51:
-				chooseChar("pyro");
-				break;
-				//"4"
-			case 52:
-				chooseChar("demoman");
-				break;
-				//"5"
-			case 53:
-				chooseChar("heavy");
-				break;
-				//"6"
-			case 54:
-				chooseChar("engy");
-				break;
-				//"7"
-			case 55:
-				chooseChar("medic");
-				break;
-				//"8"
-			case 56:
-				chooseChar("sniper");
-				break;
-				//"9"
-			case 57:
-				chooseChar("spy");
-				break;
-				//"0"
-			case 48:
-				chooseChar("random");
-				break;
-				//"enter/return"
-			case 13:
-				SCREEN.openGameScreen();
-				break;
+				case 49: //"1"
+					chooseChar("scout");
+					break;
+				case 50: //"2"
+					chooseChar("soldier");
+					break;
+				case 51: //"3"
+					chooseChar("pyro");
+					break;
+				case 52: //"4"
+					chooseChar("demoman");
+					break;
+				case 53: //"5"
+					chooseChar("heavy");
+					break;
+				case 54: //"6"
+					chooseChar("engy");
+					break;
+				case 55: //"7"
+					chooseChar("medic");
+					break;
+				case 56: //"8"
+					chooseChar("sniper");
+					break;
+				case 57: //"9"
+					chooseChar("spy");
+					break;
+				case 48: //"0"
+					chooseChar("random");
+					break;
+				case 13: //"enter"
+					SCREEN.openGameScreen();
+					break;
 			}
 		} else if (!characterScreenOpen) {
 			switch (parseInt(key.which, 10)) {
-				//","
-			case 188:
-				SCREEN.openCharacterScreen();
-				break;
-				//"r"
-			case 82:
-				SHOOT.reloading();
-				break;
+				case 188: //","
+					SCREEN.openCharacterScreen();
+					break;
+				case 82: //"r"
+					SHOOT.reloading();
+					break;
 			}
 		}
 	});
@@ -529,17 +516,17 @@ $(document).ready(function () {
 
 	$(".background").mousedown(function (e) {
 		switch (e.which) {
-		case 1:
-			if (!characterScreenOpen) {
-				if (activeChar === char.heavy) {
-					playAudio($("#wind-up")[0]);
-				} else {
-					SHOOT.shooting();
+			case 1:
+				if (!characterScreenOpen) {
+					if (activeChar === char.heavy) {
+						playAudio($("#wind-up")[0]);
+					} else {
+						SHOOT.shooting();
+					}
+					clearInterval(mouseHeldDown);
+					mouseHeldDown = setInterval(SHOOT.shooting, activeChar.bulletDelay + 50);
+					break;
 				}
-				clearInterval(mouseHeldDown);
-				mouseHeldDown = setInterval(SHOOT.shooting, activeChar.bulletDelay + 50);
-				break;
-			}
 		}
 	});
 
@@ -569,28 +556,28 @@ $(document).ready(function () {
 	//ammo crate resupply
 	$("#crate").mousedown(function (e) {
 		switch (e.which) {
-		case 1: //left-click
-			noShooting = true;
-			playAudio($("#metal")[0]);
-			$(this).fadeOut(200);
-			setTimeout(function () {
-				playAudio($("#reload")[0]);
-			}, 600);
-			setTimeout(function () {
-				fullAmmo();
-				noShooting = false;
-			}, 600 + activeChar.reloadTime);
-			break;
+			case 1: //left-click
+				noShooting = true;
+				playAudio($("#metal")[0]);
+				$(this).fadeOut(200);
+				setTimeout(function () {
+					playAudio($("#reload")[0]);
+				}, 600);
+				setTimeout(function () {
+					fullAmmo();
+					noShooting = false;
+				}, 600 + activeChar.reloadTime);
+				break;
 		}
 	});
 
 	//change classes button
 	$(".class-button").mousedown(function (e) {
 		switch (e.which) {
-		case 1:
-			playAudio($("#button")[0]);
-			SCREEN.openCharacterScreen();
-			break;
+			case 1:
+				playAudio($("#button")[0]);
+				SCREEN.openCharacterScreen();
+				break;
 		}
 	});
 
