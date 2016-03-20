@@ -103,13 +103,6 @@ $(document).ready(function () {
 
 	/******************TF2 functions*****************/
 
-	//loading screen
-	$(window).load(function () {
-		$(".full-text").addClass("flashing");
-		$(".loading").remove();
-		imagePreloader();
-	});
-
 	//highscore(map) screen
 	(function setHighScore() {
 		//high score list
@@ -209,23 +202,6 @@ $(document).ready(function () {
 		alreadyOnLastBullet = false;
 	}
 
-	//cursor tracking
-	$(document).mousemove(function (e) {
-		xPosition = e.pageX;
-		yPosition = e.pageY;
-		$("#cursor").css({
-			left: xPosition - 74,
-			top: yPosition - 74
-		});
-	});
-
-	//check for headshot
-	$(".headshot > div").hover(function () {
-		headHovering = true;
-	}, function () {
-		headHovering = false;
-	});
-
 	//reload line animation
 	function reloadLine() {
 		$(".background").one("mousedown", function () {
@@ -235,7 +211,7 @@ $(document).ready(function () {
 		reloadLine = function () {};
 	}
 
-	/****************TF2 Main Game Screens*******************/
+	/****************TF2 Main Game Screen functions*******************/
 
 	//open game screen
 	function openGameScreen() {
@@ -273,35 +249,7 @@ $(document).ready(function () {
 		$(".highscore-text").removeClass("highscore-animate");
 	}
 
-	/***********************************/
-
-	//continue button show/hide & continue
-	$(".continue-button").hover(function () {
-		$(this).css("opacity", "1");
-	}, function () {
-		$(this).css("opacity", "0");
-	});
-
-	$(".load-continue-button").click(function () {
-		$(this).parent().empty();
-		playAudio($("#button")[0]);
-		$(".highscore-list").css("opacity", 1);
-	});
-
-	$(".map-continue-button").click(function () {
-		$(this).parent().empty();
-		playAudio($("#button")[0]);
-		$(".flashing").remove();
-		$(".highscore-list").remove();
-		characterScreenOpen = true;
-	});
-
-	//select screen continue
-	$(".select-continue-button, .choose-character > div").click(function () {
-		openGameScreen();
-	});
-
-	/*****************Shoot and Reload Functions (and more)*******************/
+	/*****************Shooting and Reload Functions*******************/
 
 	//shoot gun functions
 	function shootGun() {
@@ -311,6 +259,7 @@ $(document).ready(function () {
 			setTimeout(function () {
 				noShooting = false;
 			}, activeChar.bulletDelay);
+			//rotating audio to prevent lag
 			if (totalAmmo % 2) {
 				playAudio($("#no-ammo")[0]);
 			} else {
@@ -377,7 +326,7 @@ $(document).ready(function () {
 	}
 
 	function ySpread(x) {
-		var y = Math.sqrt((Math.pow(activeChar.radius, 2)) - Math.pow(x, 2)); //y-value = hypotenouse^2 minus x-value^2
+		var y = Math.sqrt((Math.pow(activeChar.radius, 2)) - Math.pow(x, 2)); //distance formula
 		return Math.floor(Math.random() * (2 * y) - y); //random y-value (within set limits based on x-value) within spread area
 	}
 
@@ -434,9 +383,54 @@ $(document).ready(function () {
 		}
 	}
 
-	/***********************************/
+	/***************jQuery Load Events ********************/
+	
+	//loading screen
+	$(window).load(function () {
+		$(".full-text").addClass("flashing");
+		$(".loading").remove();
+		imagePreloader();
+	});
+	
+	/***************jQuery Mouse & Key Events ********************/
+	
+	//continue button show/hide & continue
+	$(".continue-button").hover(function () {
+		$(this).css("opacity", "1");
+	}, function () {
+		$(this).css("opacity", "0");
+	});
 
-	//Choose character screen (for mouse and keyboard)
+	$(".load-continue-button").click(function () {
+		$(this).parent().empty();
+		playAudio($("#button")[0]);
+		$(".highscore-list").css("opacity", 1);
+	});
+
+	$(".map-continue-button").click(function () {
+		$(this).parent().empty();
+		playAudio($("#button")[0]);
+		$(".flashing").remove();
+		$(".highscore-list").remove();
+		characterScreenOpen = true;
+	});
+
+	//select screen continue
+	$(".select-continue-button, .choose-character > div").click(function () {
+		openGameScreen();
+	});
+	
+	//cursor tracking
+	$(document).mousemove(function (e) {
+		xPosition = e.pageX;
+		yPosition = e.pageY;
+		$("#cursor").css({
+			left: xPosition - 74,
+			top: yPosition - 74
+		});
+	});
+
+	/**********Choose character screen (for mouse and keyboard)**********/
 
 	//choose Character function
 	$.fn.highlight = function (input) {
@@ -475,61 +469,60 @@ $(document).ready(function () {
 		if (characterScreenOpen) {
 			switch (parseInt(key.which, 10)) {
 				//"1"
-			case 49:
-				//chooseChar("scout");
-				$(".scout").trigger("mouseenter.scout");
-				break;
-				//"2"
-			case 50:
-				$(".soldier").trigger("mouseenter.soldier");
-				break;
-				//"3"
-			case 51:
-				$(".pyro").trigger("mouseenter.pyro");
-				break;
-				//"4"
-			case 52:
-				$(".demoman").trigger("mouseenter.demoman");
-				break;
-				//"5"
-			case 53:
-				$(".heavy").trigger("mouseenter.heavy");
-				break;
-				//"6"
-			case 54:
-				$(".engy").trigger("mouseenter.engy");
-				break;
-				//"7"
-			case 55:
-				$(".medic").trigger("mouseenter.medic");
-				break;
-				//"8"
-			case 56:
-				$(".sniper").trigger("mouseenter.sniper");
-				break;
-				//"9"
-			case 57:
-				$(".spy").trigger("mouseenter.spy");
-				break;
-				//"0"
-			case 48:
-				$(".random").trigger("mouseenter.random");
-				break;
-				//"enter/return"
-			case 13:
-				openGameScreen();
-				break;
+				case 49:
+					$(".scout").trigger("mouseenter.scout");
+					break;
+					//"2"
+				case 50:
+					$(".soldier").trigger("mouseenter.soldier");
+					break;
+					//"3"
+				case 51:
+					$(".pyro").trigger("mouseenter.pyro");
+					break;
+					//"4"
+				case 52:
+					$(".demoman").trigger("mouseenter.demoman");
+					break;
+					//"5"
+				case 53:
+					$(".heavy").trigger("mouseenter.heavy");
+					break;
+					//"6"
+				case 54:
+					$(".engy").trigger("mouseenter.engy");
+					break;
+					//"7"
+				case 55:
+					$(".medic").trigger("mouseenter.medic");
+					break;
+					//"8"
+				case 56:
+					$(".sniper").trigger("mouseenter.sniper");
+					break;
+					//"9"
+				case 57:
+					$(".spy").trigger("mouseenter.spy");
+					break;
+					//"0"
+				case 48:
+					$(".random").trigger("mouseenter.random");
+					break;
+					//"enter/return"
+				case 13:
+					openGameScreen();
+					break;
 			}
 		} else if (!characterScreenOpen) {
 			switch (parseInt(key.which, 10)) {
 				//","
-			case 188:
-				openCharacterScreen();
-				break;
-				//"r"
-			case 82:
-				reloading();
-				break;
+				case 188:
+					openCharacterScreen();
+					break;
+					//"r"
+				case 82:
+					reloading();
+					break;
 			}
 		}
 	});
@@ -538,17 +531,25 @@ $(document).ready(function () {
 
 	$(".background").mousedown(function (e) {
 		switch (e.which) {
-		case 1:
-			if (!characterScreenOpen && activeChar === char.heavy) {
-				playAudio($("#wind-up")[0]);
-			} else {
-				shooting();
-			}
-			clearInterval(mouseHeldDown);
-			mouseHeldDown = setInterval(shooting, activeChar.bulletDelay + 50);
-			break;
-
+			case 1:
+				if (!characterScreenOpen) {
+					if (activeChar === char.heavy) {
+						playAudio($("#wind-up")[0]);
+					} else {
+						shooting();
+					}
+					clearInterval(mouseHeldDown);
+					mouseHeldDown = setInterval(shooting, activeChar.bulletDelay + 50);
+					break;
+				}
 		}
+	});
+
+	//check for headshot
+	$(".headshot > div").hover(function () {
+		headHovering = true;
+	}, function () {
+		headHovering = false;
 	});
 
 	//prevent cursor lag
@@ -575,28 +576,28 @@ $(document).ready(function () {
 	//ammo crate resupply
 	$("#crate").mousedown(function (e) {
 		switch (e.which) {
-		case 1:
-			noShooting = true;
-			playAudio($("#metal")[0]);
-			$(this).fadeOut(200);
-			setTimeout(function () {
-				playAudio($("#reload")[0]);
-			}, 600);
-			setTimeout(function () {
-				fullAmmo();
-				noShooting = false;
-			}, 600 + activeChar.reloadTime);
-			break;
+			case 1:
+				noShooting = true;
+				playAudio($("#metal")[0]);
+				$(this).fadeOut(200);
+				setTimeout(function () {
+					playAudio($("#reload")[0]);
+				}, 600);
+				setTimeout(function () {
+					fullAmmo();
+					noShooting = false;
+				}, 600 + activeChar.reloadTime);
+				break;
 		}
 	});
 
 	//change classes button
 	$(".class-button").mousedown(function (e) {
 		switch (e.which) {
-		case 1:
-			playAudio($("#button")[0]);
-			openCharacterScreen();
-			break;
+			case 1:
+				playAudio($("#button")[0]);
+				openCharacterScreen();
+				break;
 		}
 	});
 
