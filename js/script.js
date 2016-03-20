@@ -248,8 +248,27 @@ $(document).ready(function () {
 		$("#hud").attr("src", ""); //remove old HUD to prevent it appearing before new one loads
 		$(".highscore-text").removeClass("highscore-animate");
 	}
+	
+	//choose Character function
 
-	/*****************Shooting and Reload Functions*******************/
+	function chooseChar(charChoice) {
+		if (charChoice === "random"){
+			//prevent random from picking previous character again
+			var oldChar = activeChar;
+			while (activeChar === oldChar) {
+				var randomChoice = Math.floor(Math.random() * charName.length);
+				chooseChar([charName[randomChoice]]);
+			}
+			$("#random").addClass("active");
+		} else {
+			$(".active").removeClass("active");
+			$("#" + charChoice).addClass("active");
+			activeChar = char[charChoice];
+			playAudio($("#hover")[0]);
+		}
+	}
+
+	/*****************Shooting and Reload functions*******************/
 
 	//shoot gun functions
 	function shootGun() {
@@ -384,16 +403,16 @@ $(document).ready(function () {
 	}
 
 	/***************jQuery Load Events ********************/
-	
+
 	//loading screen
 	$(window).load(function () {
 		$(".full-text").addClass("flashing");
 		$(".loading").remove();
 		imagePreloader();
 	});
-	
+
 	/***************jQuery Mouse & Key Events ********************/
-	
+
 	//continue button show/hide & continue
 	$(".continue-button").hover(function () {
 		$(this).css("opacity", "1");
@@ -419,7 +438,7 @@ $(document).ready(function () {
 	$(".select-continue-button, .choose-character > div").click(function () {
 		openGameScreen();
 	});
-	
+
 	//cursor tracking
 	$(document).mousemove(function (e) {
 		xPosition = e.pageX;
@@ -432,81 +451,57 @@ $(document).ready(function () {
 
 	/**********Choose character screen (for mouse and keyboard)**********/
 
-	//choose Character function
-	$.fn.highlight = function (input) {
-		//event namespace to trigger on keypress
-		this.on("mouseenter." + input, function () {
-			if (input === "random") {
-				var oldChar = activeChar;
-				while (activeChar === oldChar) {
-					var randomChoice = Math.floor(Math.random() * charName.length);
-					$("." + charName[randomChoice]).trigger("mouseenter." + charName[randomChoice]);
-				}
-				$("#random").addClass("active");
+	//Choose character screen for mouse and keyboard
 
-			} else {
-				$(".active").removeClass("active");
-				$("#" + input).addClass("active");
-				activeChar = char[input];
-				playAudio($("#hover")[0]);
-			}
-		});
-	};
+	$(".choose-character div").mouseenter(function () {
+		var charChoice = $(this).data("char");
+		chooseChar(charChoice);
+	});
 
-	$(".scout").highlight("scout");
-	$(".soldier").highlight("soldier");
-	$(".pyro").highlight("pyro");
-	$(".demoman").highlight("demoman");
-	$(".heavy").highlight("heavy");
-	$(".engy").highlight("engy");
-	$(".medic").highlight("medic");
-	$(".sniper").highlight("sniper");
-	$(".spy").highlight("spy");
-	$(".random").highlight("random");
 
 	//choose class (key) and other keys
 	$(document).keydown(function (key) {
 		if (characterScreenOpen) {
 			switch (parseInt(key.which, 10)) {
-				//"1"
+					//"1"
 				case 49:
-					$(".scout").trigger("mouseenter.scout");
+					chooseChar("scout");
 					break;
 					//"2"
 				case 50:
-					$(".soldier").trigger("mouseenter.soldier");
+					chooseChar("soldier");
 					break;
 					//"3"
 				case 51:
-					$(".pyro").trigger("mouseenter.pyro");
+					chooseChar("pyro");
 					break;
 					//"4"
 				case 52:
-					$(".demoman").trigger("mouseenter.demoman");
+					chooseChar("demoman");
 					break;
 					//"5"
 				case 53:
-					$(".heavy").trigger("mouseenter.heavy");
+					chooseChar("heavy");
 					break;
 					//"6"
 				case 54:
-					$(".engy").trigger("mouseenter.engy");
+					chooseChar("engy");
 					break;
 					//"7"
 				case 55:
-					$(".medic").trigger("mouseenter.medic");
+					chooseChar("medic");
 					break;
 					//"8"
 				case 56:
-					$(".sniper").trigger("mouseenter.sniper");
+					chooseChar("sniper");
 					break;
 					//"9"
 				case 57:
-					$(".spy").trigger("mouseenter.spy");
+					chooseChar("spy");
 					break;
 					//"0"
 				case 48:
-					$(".random").trigger("mouseenter.random");
+					chooseChar("random");
 					break;
 					//"enter/return"
 				case 13:
@@ -515,7 +510,7 @@ $(document).ready(function () {
 			}
 		} else if (!characterScreenOpen) {
 			switch (parseInt(key.which, 10)) {
-				//","
+					//","
 				case 188:
 					openCharacterScreen();
 					break;
@@ -554,7 +549,7 @@ $(document).ready(function () {
 
 	//prevent cursor lag
 	$(document).mousemove(function () {
-		$("#cursor").finish();
+		//$("#cursor").finish();
 	});
 
 	//clear interval events    
