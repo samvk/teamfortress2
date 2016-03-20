@@ -69,7 +69,6 @@ $(document).ready(function () {
 
 		noShooting = true,
 
-
 		alreadyOnLastBullet = false,
 
 		mouseHeldDown,
@@ -82,50 +81,58 @@ $(document).ready(function () {
 		pointCount,
 		oldHighScore;
 
-	/****************Preload images*******************/
+	/****************Preloads*******************/
 
-	//preload images after start screen loads
-	function imagePreloader() {
-		var imageList = [];
+	var LOAD = (function () {
+		var setHighScore = function () {
+			//high score list
+			for (var i = 0; i < charName.length; i++) {
+				//find each classes high score (if it exists)
+				var highscoreNumber = getCookie(charName[i] + "highscore") !== "" ? getCookie(charName[i] + "highscore") : "0";
+				$("#" + charName[i] + "-highscore").text(highscoreNumber);
+			}
 
-		$.each(charName, function (i) {
-			imageList.push("img/cursors/" + charName[i] + ".png");
-			imageList.push("img/bulletholes/" + charName[i] + ".png");
-			imageList.push("img/hud/" + charName[i] + ".png");
-		});
+			//last played date
+			var lastPlayed = getCookie("lastPlayed");
+			var lastPlayedText;
+			var today = new Date().toDateString();
+			if (lastPlayed === "") {
+				lastPlayedText = "Welcome new user!";
+			} else if (lastPlayed === today) {
+				lastPlayedText = "Today";
+			} else {
+				lastPlayedText = lastPlayed;
+			}
+			$("#last-played").after("<p id='last-played-date'>" + lastPlayedText + "</p>");
+			setCookie("lastPlayed", today, 365);
+		};
+		var imagePreloader = function () {
+			var imageList = [];
 
-		var newImage = [];
-		for (var i = 0; i < imageList.length; i++) {
-			newImage[i] = new Image();
-			newImage[i].src = imageList[i];
-		}
-	}
+			$.each(charName, function (i) {
+				imageList.push("img/cursors/" + charName[i] + ".png");
+				imageList.push("img/bulletholes/" + charName[i] + ".png");
+				imageList.push("img/hud/" + charName[i] + ".png");
+			});
+
+			var newImage = [];
+			for (var i = 0; i < imageList.length; i++) {
+				newImage[i] = new Image();
+				newImage[i].src = imageList[i];
+			}
+		};
+
+		return {
+			init: function () {
+				$(".full-text").addClass("flashing");
+				$(".loading").remove();
+				setHighScore();
+				imagePreloader();
+			}
+		};
+	}());
 
 	/******************TF2 functions*****************/
-
-	//highscore(map) screen
-	function setHighScore() {
-		//high score list
-		for (var i = 0; i < charName.length; i++) {
-			//find each classes high score (if it exists)
-			var highscoreNumber = getCookie(charName[i] + "highscore") !== "" ? getCookie(charName[i] + "highscore") : "0";
-			$("#" + charName[i] + "-highscore").text(highscoreNumber);
-		}
-
-		//last played date
-		var lastPlayed = getCookie("lastPlayed");
-		var lastPlayedText;
-		var today = new Date().toDateString();
-		if (lastPlayed === "") {
-			lastPlayedText = "Welcome new user!";
-		} else if (lastPlayed === today) {
-			lastPlayedText = "Today";
-		} else {
-			lastPlayedText = lastPlayed;
-		}
-		$("#last-played").after("<p id='last-played-date'>" + lastPlayedText + "</p>");
-		setCookie("lastPlayed", today, 365);
-	}
 
 	//play audio
 	function playAudio(audio) {
@@ -140,52 +147,9 @@ $(document).ready(function () {
 		$(".total-ammo").text(ammoCarried);
 	}
 
-	//reload functions
-	function reloadAmmo() {
-		if (totalAmmo >= activeChar.ammoLeft) {
-			ammoCarried = ammoCarried - (activeChar.ammoLeft - ammoLeft);
-			ammoLeft = activeChar.ammoLeft;
-		} else {
-			ammoLeft = ammoLeft + ammoCarried;
-			ammoCarried = 0;
-		}
-	}
-
-	function reloading() {
-		var alreadyReloading = false;
-		return (function () {
-			if (!alreadyReloading && ammoLeft !== activeChar.ammoLeft && ammoCarried !== 0 && !noShooting) {
-				alreadyReloading = true;
-				playAudio($("#reload")[0]);
-				noShooting = true;
-				clearInterval(mouseHeldDown);
-				setTimeout(function () {
-					noShooting = false;
-					alreadyReloading = false;
-					reloadAmmo();
-					updateText();
-				}, activeChar.reloadTime);
-			}
-		}());
-	}
-
 	//update/change speak line
 	function rollSpeak() {
 		$("#speak").attr("src", "audio/" + activeChar.name + "/speak" + Math.floor(Math.random() * 3) + ".mp3");
-	}
-
-	//update sound/cursor/bullethole
-	function setValue() {
-		$("#cursor").attr("src", "img/cursors/" + activeChar.name + ".png");
-		$("#hud").attr("src", "img/hud/" + activeChar.name + ".png");
-		$("#draw").attr("src", "audio/" + activeChar.name + "/gundraw.mp3");
-		$("#gunshot").attr("src", "audio/" + activeChar.name + "/shoot.mp3");
-		$("#gunshot2").attr("src", "audio/" + activeChar.name + "/shoot.mp3");
-		$("#reload").attr("src", "audio/" + activeChar.name + "/reload.mp3");
-		$("#no-ammo").attr("src", "audio/" + activeChar.name + "/noammo.mp3");
-		$("#no-ammo2").attr("src", "audio/" + activeChar.name + "/noammo.mp3");
-		$("#no").attr("src", "audio/" + activeChar.name + "/no.mp3");
-		rollSpeak();
 	}
 
 	//full ammo function
@@ -196,11 +160,24 @@ $(document).ready(function () {
 		updateText();
 		rollSpeak();
 		alreadyOnLastBullet = false;
+		alreadyOnLastBullet = false;
 	}
 
 	/****************TF2 Main Game Screen functions*******************/
 
 	var SCREEN = (function () {
+		var setValue = function () {
+			$("#cursor").attr("src", "img/cursors/" + activeChar.name + ".png");
+			$("#hud").attr("src", "img/hud/" + activeChar.name + ".png");
+			$("#draw").attr("src", "audio/" + activeChar.name + "/gundraw.mp3");
+			$("#gunshot").attr("src", "audio/" + activeChar.name + "/shoot.mp3");
+			$("#gunshot2").attr("src", "audio/" + activeChar.name + "/shoot.mp3");
+			$("#reload").attr("src", "audio/" + activeChar.name + "/reload.mp3");
+			$("#no-ammo").attr("src", "audio/" + activeChar.name + "/noammo.mp3");
+			$("#no-ammo2").attr("src", "audio/" + activeChar.name + "/noammo.mp3");
+			$("#no").attr("src", "audio/" + activeChar.name + "/no.mp3");
+			rollSpeak();
+		};
 		var reloadLine = function () {
 			$(".background").one("mousedown", function () {
 				$("<div class='reload-line'><p>Hit 'R' to reload</p></div>").appendTo(".ammo-info");
@@ -265,6 +242,18 @@ $(document).ready(function () {
 	/*****************Shooting and Reload functions*******************/
 
 	var SHOOT = (function () {
+		//reload functions
+		var alreadyReloading = false;
+		var reloadAmmo = function () {
+			if (totalAmmo >= activeChar.ammoLeft) {
+				ammoCarried = ammoCarried - (activeChar.ammoLeft - ammoLeft);
+				ammoLeft = activeChar.ammoLeft;
+			} else {
+				ammoLeft = ammoLeft + ammoCarried;
+				ammoCarried = 0;
+			}
+		};
+		//bullet animation
 		var xSpread = function () {
 			return Math.floor(Math.random() * (2 * activeChar.radius) - activeChar.radius); //random x-value within spread area
 		};
@@ -317,6 +306,7 @@ $(document).ready(function () {
 				}
 			}
 		};
+		//shooting
 		var shootGun = function () {
 			if (totalAmmo <= 0) {
 				totalAmmo--;
@@ -352,7 +342,7 @@ $(document).ready(function () {
 				if (ammoLeft <= 0) {
 					clearInterval(mouseHeldDown);
 					setTimeout(function () {
-						reloading();
+						SHOOT.reloading();
 					}, activeChar.bulletDelay);
 				}
 				//check if new high score
@@ -387,7 +377,23 @@ $(document).ready(function () {
 				}, 2000);
 			}
 		};
+
 		return {
+			reloading: function () {
+				if (!alreadyReloading && ammoLeft !== activeChar.ammoLeft && ammoCarried !== 0 && !noShooting) {
+					alreadyReloading = true;
+					playAudio($("#reload")[0]);
+					noShooting = true;
+					clearInterval(mouseHeldDown);
+					setTimeout(function () {
+						noShooting = false;
+						alreadyReloading = false;
+						reloadAmmo();
+						updateText();
+					}, activeChar.reloadTime);
+				}
+
+			},
 			shooting: function () {
 				if (!noShooting) {
 					cursorAnim();
@@ -405,10 +411,7 @@ $(document).ready(function () {
 
 	//loading screen
 	$(window).load(function () {
-		$(".full-text").addClass("flashing");
-		$(".loading").remove();
-		setHighScore();
-		imagePreloader();
+		LOAD.init();
 	});
 
 	/***************jQuery Mouse & Key Events ********************/
@@ -431,7 +434,6 @@ $(document).ready(function () {
 		playAudio($("#button")[0]);
 		$(".flashing").remove();
 		$(".highscore-list").remove();
-		characterScreenOpen = true;
 	});
 
 	//select screen continue
@@ -447,6 +449,8 @@ $(document).ready(function () {
 			left: xPosition - 74,
 			top: yPosition - 74
 		});
+		//prevent cursor lag
+		$("#cursor").finish();
 	});
 
 	/**********Choose character screen (for mouse and keyboard)**********/
@@ -457,7 +461,6 @@ $(document).ready(function () {
 		var charChoice = $(this).data("char");
 		chooseChar(charChoice);
 	});
-
 
 	//choose class (key) and other keys
 	$(document).keydown(function (key) {
@@ -516,7 +519,7 @@ $(document).ready(function () {
 				break;
 				//"r"
 			case 82:
-				reloading();
+				SHOOT.reloading();
 				break;
 			}
 		}
@@ -547,11 +550,6 @@ $(document).ready(function () {
 		headHovering = false;
 	});
 
-	//prevent cursor lag
-	$(document).mousemove(function () {
-		//$("#cursor").finish();
-	});
-
 	//clear interval events    
 	$(document).blur(function () {
 		clearInterval(mouseHeldDown);
@@ -571,7 +569,7 @@ $(document).ready(function () {
 	//ammo crate resupply
 	$("#crate").mousedown(function (e) {
 		switch (e.which) {
-		case 1:
+		case 1: //left-click
 			noShooting = true;
 			playAudio($("#metal")[0]);
 			$(this).fadeOut(200);
