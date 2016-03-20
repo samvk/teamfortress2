@@ -54,7 +54,7 @@ $(document).ready(function () {
 		return "";
 	}
 
-	/*****************TF2 variables******************/
+	/*****************TF2 global variables******************/
 
 	var activeChar = char.heavy,
 
@@ -132,7 +132,7 @@ $(document).ready(function () {
 		};
 	}());
 
-	/******************TF2 functions*****************/
+	/******************TF2 global functions*****************/
 
 	//play audio
 	function playAudio(audio) {
@@ -159,7 +159,6 @@ $(document).ready(function () {
 		totalAmmo = ammoLeft + ammoCarried;
 		updateText();
 		rollSpeak();
-		alreadyOnLastBullet = false;
 		alreadyOnLastBullet = false;
 	}
 
@@ -445,12 +444,10 @@ $(document).ready(function () {
 	$(document).mousemove(function (e) {
 		xPosition = e.pageX;
 		yPosition = e.pageY;
-		$("#cursor").css({
+		$("#cursor").finish().css({
 			left: xPosition - 74,
 			top: yPosition - 74
 		});
-		//prevent cursor lag
-		$("#cursor").finish();
 	});
 
 	/**********Choose character screen (for mouse and keyboard)**********/
