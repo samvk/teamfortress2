@@ -83,7 +83,7 @@ $(document).ready(function () {
 
 	/****************Preloads*******************/
 
-	var LOAD = (function () {
+	var load = (function () {
 		var setHighScore = function () {
 			//high score list
 			for (var i = 0; i < charName.length; i++) {
@@ -124,8 +124,8 @@ $(document).ready(function () {
 
 		return {
 			init: function () {
-				$(".full-text").addClass("flashing");
 				$(".loading").remove();
+				$(".full-text").addClass("flashing");
 				setHighScore();
 				imagePreloader();
 			}
@@ -164,7 +164,7 @@ $(document).ready(function () {
 
 	/****************TF2 Main Game Screen functions*******************/
 
-	var SCREEN = (function () {
+	var screen = (function () {
 		var setValue = function () {
 			$("#cursor").attr("src", "img/cursors/" + activeChar.name + ".png");
 			$("#hud").attr("src", "img/hud/" + activeChar.name + ".png");
@@ -190,12 +190,12 @@ $(document).ready(function () {
 				setValue();
 				fullAmmo();
 				$(".character-selection").hide();
-				setTimeout(function () {
-					playAudio($("#draw")[0]);
-				}, 300);
 				characterScreenOpen = false;
 				//in case random is selected
 				$("#random").removeClass("active");
+				setTimeout(function () {
+					playAudio($("#draw")[0]);
+				}, 300);
 				if (activeChar !== char.pyro && activeChar !== char.heavy && activeChar !== char.sniper) {
 					reloadLine();
 				}
@@ -240,7 +240,7 @@ $(document).ready(function () {
 
 	/*****************Shooting and Reload functions*******************/
 
-	var SHOOT = (function () {
+	var shoot = (function () {
 		//reload functions
 		var alreadyReloading = false;
 		var reloadAmmo = function () {
@@ -327,6 +327,7 @@ $(document).ready(function () {
 			} else {
 				ammoLeft--;
 				totalAmmo--;
+				noShooting = true;
 				pointCount += activeChar.points;
 				//prevent audio delay by flipping between audio tags
 				if (totalAmmo % 2) {
@@ -334,14 +335,13 @@ $(document).ready(function () {
 				} else {
 					playAudio($("#gunshot2")[0]);
 				}
-				noShooting = true;
 				setTimeout(function () {
 					noShooting = false;
 				}, activeChar.bulletDelay);
 				if (ammoLeft <= 0) {
 					clearInterval(mouseHeldDown);
 					setTimeout(function () {
-						SHOOT.reloading();
+						this.reloading();
 					}, activeChar.bulletDelay);
 				}
 				//check if new high score
@@ -406,14 +406,16 @@ $(document).ready(function () {
 		};
 	}());
 
-	/***************jQuery Load Events ********************/
+	/********************* jQuery Events **************************/
+	
+	/*************** Load events ********************/
 
 	//loading screen
 	$(window).load(function () {
-		LOAD.init();
+		load.init();
 	});
 
-	/***************jQuery Mouse & Key Events ********************/
+	/*************** Start screen(s) ********************/
 
 	//continue button show/hide & continue
 	$(".continue-button").hover(function () {
@@ -424,33 +426,23 @@ $(document).ready(function () {
 
 	$(".load-continue-button").click(function () {
 		$(this).parent().empty();
-		playAudio($("#button")[0]);
 		$(".highscore-list").css("opacity", 1);
+		playAudio($("#button")[0]);
 	});
 
 	$(".map-continue-button").click(function () {
 		$(this).parent().empty();
-		playAudio($("#button")[0]);
 		$(".flashing").remove();
 		$(".highscore-list").remove();
+		playAudio($("#button")[0]);
 	});
 
 	//select screen continue
 	$(".select-continue-button, .choose-character > div").click(function () {
-		SCREEN.openGameScreen();
+		screen.openGameScreen();
 	});
 
-	//cursor tracking
-	$(document).mousemove(function (e) {
-		xPosition = e.pageX;
-		yPosition = e.pageY;
-		$("#cursor").finish().css({
-			left: xPosition - 74,
-			top: yPosition - 74
-		});
-	});
-
-	//Choose character screen for mouse and keyboard
+	/*********** Choose character screen (mouse & keyboard) **************/
 
 	$(".choose-character div").mouseenter(function () {
 		var charChoice = $(this).data("char");
@@ -492,23 +484,34 @@ $(document).ready(function () {
 					chooseChar("random");
 					break;
 				case 13: //"enter"
-					SCREEN.openGameScreen();
+					screen.openGameScreen();
 					break;
 			}
 		} else if (!characterScreenOpen) {
 			switch (parseInt(key.which, 10)) {
 				case 188: //","
-					SCREEN.openCharacterScreen();
+					screen.openCharacterScreen();
 					break;
 				case 82: //"r"
-					SHOOT.reloading();
+					shoot.reloading();
 					break;
 			}
 		}
 	});
 
-	/***********************************/
+	/*************** Crosshair and shooting (Mouse events) ********************/
 
+	//cursor tracking
+	$(document).mousemove(function (e) {
+		xPosition = e.pageX;
+		yPosition = e.pageY;
+		$("#cursor").finish().css({
+			left: xPosition - 74,
+			top: yPosition - 74
+		});
+	});
+	
+	//shooting
 	$(".background").mousedown(function (e) {
 		switch (e.which) {
 			case 1:
@@ -516,10 +519,10 @@ $(document).ready(function () {
 					if (activeChar === char.heavy) {
 						playAudio($("#wind-up")[0]);
 					} else {
-						SHOOT.shooting();
+						shoot.shooting();
 					}
 					clearInterval(mouseHeldDown);
-					mouseHeldDown = setInterval(SHOOT.shooting, activeChar.bulletDelay + 50);
+					mouseHeldDown = setInterval(shoot.shooting, activeChar.bulletDelay + 50);
 					break;
 				}
 		}
@@ -532,7 +535,8 @@ $(document).ready(function () {
 		headHovering = false;
 	});
 
-	//clear interval events    
+	/***************Clear Interval Events (stop shooting) ********************/
+	
 	$(document).blur(function () {
 		clearInterval(mouseHeldDown);
 	});
@@ -547,6 +551,8 @@ $(document).ready(function () {
 			playAudio($("#wind-down")[0]);
 		}
 	});
+	
+	/*************** Misc. Game Screen popups ********************/
 
 	//ammo crate resupply
 	$("#crate").mousedown(function (e) {
@@ -569,14 +575,14 @@ $(document).ready(function () {
 	//change classes button
 	$(".class-button").mousedown(function (e) {
 		switch (e.which) {
-			case 1:
+			case 1: //left-click
 				playAudio($("#button")[0]);
-				SCREEN.openCharacterScreen();
+				screen.openCharacterScreen();
 				break;
 		}
 	});
 
-	//hide cursor
+	//hide crosshair
 	$("#crate, .class-button").hover(function () {
 		$("#cursor").toggle();
 	});
