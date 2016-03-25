@@ -1,4 +1,3 @@
-/*jslint vars: true plusplus: true */
 /*jshint esversion: 6*/
 /*global $, document, Image, window, setTimeout, setInterval, clearInterval*/
 
@@ -19,7 +18,7 @@ $(document).ready(function () {
 	}
 
 	const char = {
-		scout: new Character("scout", 6, 2, 0, 8, 550, 1400, 10),
+		scout: new Character("scout", 6, 32, 0, 8, 550, 1400, 10),
 		soldier: new Character("soldier", 4, 20, 850, 0, 2000, 2100, 20),
 		pyro: new Character("pyro", 200, 0, 0, 0, 100, 300, 2),
 		demoman: new Character("demoman", 4, 16, 540, 8, 1450, 2050, 20),
@@ -57,9 +56,9 @@ $(document).ready(function () {
 
 	/*****************TF2 global variables******************/
 
-	let activeChar = char.heavy,
+	const charName = ["scout", "soldier", "pyro", "demoman", "heavy", "engy", "medic", "sniper", "spy"];
 
-		charName = ["scout", "soldier", "pyro", "demoman", "heavy", "engy", "medic", "sniper", "spy"],
+	let activeChar = char.heavy,
 
 		ammoLeft,
 		ammoCarried,
@@ -134,7 +133,7 @@ $(document).ready(function () {
 
 	const load = (function () {
 
-		function setHighScore() {
+		const setHighScore = function () {
 			//high score list
 			for (let i = 0; i < charName.length; i++) {
 				//find each classes high score (if it exists)
@@ -155,9 +154,9 @@ $(document).ready(function () {
 			}
 			$("#last-played").after("<p id='last-played-date'>" + lastPlayedText + "</p>");
 			setCookie("lastPlayed", today, 365);
-		}
+		};
 
-		function imagePreloader() {
+		const imagePreloader = function () {
 			let imageList = [];
 
 			$.each(charName, function (i) {
@@ -171,7 +170,7 @@ $(document).ready(function () {
 				newImage[i] = new Image();
 				newImage[i].src = imageList[i];
 			}
-		}
+		};
 
 		return {
 			init: function () {
@@ -187,7 +186,7 @@ $(document).ready(function () {
 
 	const screen = (function () {
 
-		function setValue() {
+		const setValue = function () {
 			$("#cursor").attr("src", "img/cursors/" + activeChar.name + ".png");
 			$("#hud").attr("src", "img/hud/" + activeChar.name + ".png");
 			$("#draw").attr("src", "audio/" + activeChar.name + "/gundraw.mp3");
@@ -198,15 +197,15 @@ $(document).ready(function () {
 			$("#no-ammo2").attr("src", "audio/" + activeChar.name + "/noammo.mp3");
 			$("#no").attr("src", "audio/" + activeChar.name + "/no.mp3");
 			rollSpeak();
-		}
+		};
 
-		function reloadLine() {
+		var reloadLine = function () {
 			$(".background").one("mousedown", function () {
 				$("<div class='reload-line'><p>Hit 'R' to reload</p></div>").appendTo(".ammo-info");
 			});
 			//run only once
 			reloadLine = function () {};
-		}
+		};
 
 		return {
 			openGameScreen: function () {
@@ -247,10 +246,11 @@ $(document).ready(function () {
 	/*************** Shooting and Reload functions *****************/
 
 	const shoot = (function () {
+
 		//reload functions
 		let alreadyReloading = false;
 
-		function reloadAmmo() {
+		const reloadAmmo = function () {
 			if (totalAmmo >= activeChar.ammoLeft) {
 				ammoCarried = ammoCarried - (activeChar.ammoLeft - ammoLeft);
 				ammoLeft = activeChar.ammoLeft;
@@ -258,19 +258,19 @@ $(document).ready(function () {
 				ammoLeft = ammoLeft + ammoCarried;
 				ammoCarried = 0;
 			}
-		}
+		};
 
 		//bullet animation
-		function xSpread() {
+		const xSpread = function () {
 			return Math.floor(Math.random() * (2 * activeChar.radius) - activeChar.radius); //random x-value within spread area
-		}
+		};
 
-		function ySpread(x) {
+		const ySpread = function (x) {
 			const y = Math.sqrt((Math.pow(activeChar.radius, 2)) - Math.pow(x, 2)); //distance formula
 			return Math.floor(Math.random() * (2 * y) - y); //random y-value (within set limits based on x-value) within spread area
-		}
+		};
 
-		function cursorAnim() {
+		const cursorAnim = function () {
 			$("#cursor").stop().animate({
 				width: "168px",
 				height: "168px",
@@ -282,9 +282,9 @@ $(document).ready(function () {
 				left: "+=10px",
 				top: "+=10px"
 			}, 80);
-		}
+		};
 
-		function setBulletHole() {
+		const setBulletHole = function () {
 			if (totalAmmo > 0) {
 				//bullet spread placements (45px and 81px account for .bullet image-size centering)
 				const x = xSpread();
@@ -315,10 +315,10 @@ $(document).ready(function () {
 					pointCount += 4;
 				}
 			}
-		}
+		};
 
 		//shooting
-		function shootGun() {
+		const shootGun = function () {
 			if (totalAmmo <= 0) {
 				totalAmmo--;
 				noShooting = true;
@@ -365,15 +365,15 @@ $(document).ready(function () {
 					}
 				}
 			}
-		}
+		};
 
-		function updateBullet() {
+		const updateBullet = function () {
 			setTimeout(function () {
 				$(".bullet").css("background", "url(img/bulletholes/" + activeChar.name + ".png)");
 			}, activeChar.bulletholeDelay);
-		}
+		};
 
-		function onLastBullet() {
+		const onLastBullet = function () {
 			if (totalAmmo === 0 && !alreadyOnLastBullet) {
 				alreadyOnLastBullet = true;
 				if (activeChar === char.heavy) {
@@ -389,7 +389,7 @@ $(document).ready(function () {
 					}
 				}, 2000);
 			}
-		}
+		};
 
 		return {
 			reloading: function () {
