@@ -96,19 +96,15 @@ $(document).ready(function () {
 		$(".total-ammo").text(ammoCarried);
 	}
 
-	//update/change speak line
-	function rollSpeak() {
-		$("#speak").attr("src", "audio/" + activeChar.name + "/speak" + Math.floor(Math.random() * 3) + ".mp3");
-	}
-
 	//full ammo function
 	function fullAmmo() {
 		ammoLeft = activeChar.ammoLeft;
 		ammoCarried = activeChar.ammoCarried;
 		totalAmmo = ammoLeft + ammoCarried;
 		updateText();
-		rollSpeak();
 		alreadyOnLastBullet = false;
+		//reset spoken line when out of ammo
+		$("#speak").attr("src", "audio/" + activeChar.name + "/speak" + Math.floor(Math.random() * 3) + ".mp3");
 	}
 
 	//choose Character function
@@ -196,7 +192,7 @@ $(document).ready(function () {
 			$("#no-ammo").attr("src", "audio/" + activeChar.name + "/noammo.mp3");
 			$("#no-ammo2").attr("src", "audio/" + activeChar.name + "/noammo.mp3");
 			$("#no").attr("src", "audio/" + activeChar.name + "/no.mp3");
-			rollSpeak();
+			//see fullAmmo() for #speak line (allows for different lines on each no ammo)
 		};
 
 		var reloadLine = function () {
@@ -570,6 +566,11 @@ $(document).ready(function () {
 
 	/*************** Misc. Game Screen popups ********************/
 
+	//hide crosshair
+	$("#crate, .class-button").hover(function () {
+		$("#cursor").toggle();
+	});
+	
 	//ammo crate resupply
 	$("#crate").mousedown(function (e) {
 		switch (e.which) {
@@ -596,11 +597,6 @@ $(document).ready(function () {
 			screen.openCharacterScreen();
 			break;
 		}
-	});
-
-	//hide crosshair
-	$("#crate, .class-button").hover(function () {
-		$("#cursor").toggle();
 	});
 
 	//disable right click
