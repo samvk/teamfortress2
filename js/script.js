@@ -103,6 +103,7 @@ $(document).ready(function () {
 		totalAmmo = ammoLeft + ammoCarried;
 		updateText();
 		alreadyOnLastBullet = false;
+		noShooting = false;
 		//reset spoken line when out of ammo
 		$("#speak").attr("src", "audio/" + activeChar.name + "/speak" + Math.floor(Math.random() * 3) + ".mp3");
 	}
@@ -205,7 +206,6 @@ $(document).ready(function () {
 
 		return {
 			openGameScreen: function () {
-				noShooting = false;
 				setValue();
 				fullAmmo();
 				$(".character-selection").hide();
@@ -401,8 +401,20 @@ $(document).ready(function () {
 						updateText();
 					}, activeChar.reloadTime);
 				}
-
 			},
+
+			reloadingCrate: function () {
+				noShooting = true;
+				playAudio($("#metal")[0]);
+				$("#crate").fadeOut(200);
+				setTimeout(function () {
+					playAudio($("#reload")[0]);
+				}, 600);
+				setTimeout(function () {
+					fullAmmo();
+				}, 600 + activeChar.reloadTime);
+			},
+
 			shooting: function () {
 				if (!noShooting) {
 					cursorAnim();
@@ -570,21 +582,12 @@ $(document).ready(function () {
 	$("#crate, .class-button").hover(function () {
 		$("#cursor").toggle();
 	});
-	
+
 	//ammo crate resupply
 	$("#crate").mousedown(function (e) {
 		switch (e.which) {
 		case 1: //left-click
-			noShooting = true;
-			playAudio($("#metal")[0]);
-			$(this).fadeOut(200);
-			setTimeout(function () {
-				playAudio($("#reload")[0]);
-			}, 600);
-			setTimeout(function () {
-				fullAmmo();
-				noShooting = false;
-			}, 600 + activeChar.reloadTime);
+			shoot.reloadingCrate();
 			break;
 		}
 	});
