@@ -4,17 +4,37 @@
 $(document).ready(function () {
 	"use strict";
 
-	/************** Character Constructor **************/
+	/************** Character Class **************/
 
-	function Character(name, ammoLeft, ammoCarried, bulletholeDelay, radius, bulletDelay, reloadTime, points) {
-		this.name = name;
-		this.ammoLeft = ammoLeft;
-		this.ammoCarried = ammoCarried;
-		this.bulletholeDelay = bulletholeDelay;
-		this.radius = radius;
-		this.bulletDelay = bulletDelay;
-		this.reloadTime = reloadTime;
-		this.points = points;
+	class Character {
+
+		constructor(name, ammoLeft, ammoCarried, bulletholeDelay, radius, bulletDelay, reloadTime, points) {
+			this.name = name;
+			this.ammoLeft = ammoLeft;
+			this.ammoCarried = ammoCarried;
+			this.bulletholeDelay = bulletholeDelay;
+			this.radius = radius;
+			this.bulletDelay = bulletDelay;
+			this.reloadTime = reloadTime;
+			this.points = points;
+		}
+
+		setValue() {
+			$("#cursor").attr("src", "img/cursors/" + this.name + ".png");
+			$("#hud").attr("src", "img/hud/" + this.name + ".png");
+			$("#draw").attr("src", "audio/" + this.name + "/gundraw.mp3");
+			$("#gunshot").attr("src", "audio/" + this.name + "/shoot.mp3");
+			$("#gunshot2").attr("src", "audio/" + this.name + "/shoot.mp3");
+			$("#reload").attr("src", "audio/" + this.name + "/reload.mp3");
+			$("#no-ammo").attr("src", "audio/" + this.name + "/noammo.mp3");
+			$("#no-ammo2").attr("src", "audio/" + this.name + "/noammo.mp3");
+			$("#no").attr("src", "audio/" + this.name + "/no.mp3");
+		}
+		
+		speak() {
+			$("#speak").attr("src", "audio/" + this.name + "/speak" + Math.floor(Math.random() * 3) + ".mp3");
+		}
+		
 	}
 
 	const char = {
@@ -53,7 +73,7 @@ $(document).ready(function () {
 		}
 		return "";
 	}
-	
+
 	/****************** Audio settings *****************/
 
 	function playAudio(audioID) {
@@ -137,19 +157,6 @@ $(document).ready(function () {
 
 	const screen = (function () {
 
-		const setValue = function () {
-			$("#cursor").attr("src", "img/cursors/" + activeChar.name + ".png");
-			$("#hud").attr("src", "img/hud/" + activeChar.name + ".png");
-			$("#draw").attr("src", "audio/" + activeChar.name + "/gundraw.mp3");
-			$("#gunshot").attr("src", "audio/" + activeChar.name + "/shoot.mp3");
-			$("#gunshot2").attr("src", "audio/" + activeChar.name + "/shoot.mp3");
-			$("#reload").attr("src", "audio/" + activeChar.name + "/reload.mp3");
-			$("#no-ammo").attr("src", "audio/" + activeChar.name + "/noammo.mp3");
-			$("#no-ammo2").attr("src", "audio/" + activeChar.name + "/noammo.mp3");
-			$("#no").attr("src", "audio/" + activeChar.name + "/no.mp3");
-			//see fullAmmo() for #speak line (allows for different lines on each no ammo)
-		};
-
 		var reloadLine = function () {
 			$(".background").one("mousedown", function () {
 				$("<div class='reload-line'><p>Hit 'R' to reload</p></div>").appendTo(".ammo-info");
@@ -160,7 +167,7 @@ $(document).ready(function () {
 
 		return {
 			openGameScreen: function () {
-				setValue();
+				activeChar.setValue();
 				$(".character-selection").hide();
 				characterScreenOpen = false;
 				//in case random is selected
@@ -197,7 +204,7 @@ $(document).ready(function () {
 	const shoot = (function () {
 
 		//reload functions
-		let	alreadyOnLastBullet = false,
+		let alreadyOnLastBullet = false,
 			noShooting = true,
 			ammoLeft = activeChar.ammoLeft,
 			ammoCarried = activeChar.ammoCarried,
@@ -359,12 +366,12 @@ $(document).ready(function () {
 				alreadyOnLastBullet = false;
 				noShooting = false;
 				//reset spoken line when out of ammo
-				$("#speak").attr("src", "audio/" + activeChar.name + "/speak" + Math.floor(Math.random() * 3) + ".mp3");
+				activeChar.speak();
 			},
 
 			reloading: (function () {
 				let alreadyReloading = false;
-				
+
 				return function () {
 					if (!alreadyReloading && ammoLeft !== activeChar.ammoLeft && ammoCarried !== 0 && !noShooting) {
 						alreadyReloading = true;
@@ -474,49 +481,49 @@ $(document).ready(function () {
 		$(document).keydown(function (key) {
 			if (characterScreenOpen) {
 				switch (parseInt(key.which, 10)) {
-				case 49: //"1"
-					chooseChar("scout");
-					break;
-				case 50: //"2"
-					chooseChar("soldier");
-					break;
-				case 51: //"3"
-					chooseChar("pyro");
-					break;
-				case 52: //"4"
-					chooseChar("demoman");
-					break;
-				case 53: //"5"
-					chooseChar("heavy");
-					break;
-				case 54: //"6"
-					chooseChar("engy");
-					break;
-				case 55: //"7"
-					chooseChar("medic");
-					break;
-				case 56: //"8"
-					chooseChar("sniper");
-					break;
-				case 57: //"9"
-					chooseChar("spy");
-					break;
-				case 48: //"0"
-					chooseChar("random");
-					break;
-				case 13: //"enter"
-					screen.openGameScreen();
-					shoot.fullAmmo();
-					break;
+					case 49: //"1"
+						chooseChar("scout");
+						break;
+					case 50: //"2"
+						chooseChar("soldier");
+						break;
+					case 51: //"3"
+						chooseChar("pyro");
+						break;
+					case 52: //"4"
+						chooseChar("demoman");
+						break;
+					case 53: //"5"
+						chooseChar("heavy");
+						break;
+					case 54: //"6"
+						chooseChar("engy");
+						break;
+					case 55: //"7"
+						chooseChar("medic");
+						break;
+					case 56: //"8"
+						chooseChar("sniper");
+						break;
+					case 57: //"9"
+						chooseChar("spy");
+						break;
+					case 48: //"0"
+						chooseChar("random");
+						break;
+					case 13: //"enter"
+						screen.openGameScreen();
+						shoot.fullAmmo();
+						break;
 				}
 			} else if (!characterScreenOpen) {
 				switch (parseInt(key.which, 10)) {
-				case 188: //","
-					screen.openCharacterScreen();
-					break;
-				case 82: //"r"
-					shoot.reloading();
-					break;
+					case 188: //","
+						screen.openCharacterScreen();
+						break;
+					case 82: //"r"
+						shoot.reloading();
+						break;
 				}
 			}
 		});
@@ -538,17 +545,17 @@ $(document).ready(function () {
 	//shooting
 	$(".background").mousedown(function (e) {
 		switch (e.which) {
-		case 1:
-			if (!characterScreenOpen) {
-				if (activeChar === char.heavy) {
-					playAudio($("#wind-up")[0]);
-				} else {
-					shoot.shooting();
+			case 1:
+				if (!characterScreenOpen) {
+					if (activeChar === char.heavy) {
+						playAudio($("#wind-up")[0]);
+					} else {
+						shoot.shooting();
+					}
+					clearInterval(mouseHeldDown);
+					mouseHeldDown = setInterval(shoot.shooting, activeChar.bulletDelay + 50);
+					break;
 				}
-				clearInterval(mouseHeldDown);
-				mouseHeldDown = setInterval(shoot.shooting, activeChar.bulletDelay + 50);
-				break;
-			}
 		}
 	});
 
@@ -586,19 +593,19 @@ $(document).ready(function () {
 	//ammo crate resupply
 	$("#crate").mousedown(function (e) {
 		switch (e.which) {
-		case 1: //left-click
-			shoot.reloadingCrate();
-			break;
+			case 1: //left-click
+				shoot.reloadingCrate();
+				break;
 		}
 	});
 
 	//change classes button
 	$(".class-button").mousedown(function (e) {
 		switch (e.which) {
-		case 1: //left-click
-			playAudio($("#button")[0]);
-			screen.openCharacterScreen();
-			break;
+			case 1: //left-click
+				playAudio($("#button")[0]);
+				screen.openCharacterScreen();
+				break;
 		}
 	});
 
