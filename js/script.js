@@ -4,7 +4,7 @@
 $(document).ready(function () {
 	"use strict";
 
-	/**************Character Constructor**************/
+	/************** Character Constructor **************/
 
 	function Character(name, ammoLeft, ammoCarried, bulletholeDelay, radius, bulletDelay, reloadTime, points) {
 		this.name = name;
@@ -20,7 +20,7 @@ $(document).ready(function () {
 	const char = {
 		scout: new Character("scout", 6, 32, 0, 8, 550, 1400, 10),
 		soldier: new Character("soldier", 4, 20, 850, 0, 2000, 2100, 20),
-		pyro: new Character("pyro", 200, 0, 0, 0, 100, 300, 2),
+		pyro: new Character("pyro", 2, 0, 0, 0, 100, 300, 2),
 		demoman: new Character("demoman", 4, 16, 540, 8, 1450, 2050, 20),
 		heavy: new Character("heavy", 200, 0, 0, 30, 100, 1650, 2),
 		engy: new Character("engy", 6, 32, 0, 8, 880, 1600, 10),
@@ -30,7 +30,7 @@ $(document).ready(function () {
 	};
 
 
-	/***************High Score cookies**************/
+	/*************** High Score cookies **************/
 
 	function setCookie(cname, cvalue, exdays) {
 		const d = new Date();
@@ -53,23 +53,22 @@ $(document).ready(function () {
 		}
 		return "";
 	}
+	
+	/****************** Audio settings *****************/
 
-	/*****************TF2 global variables******************/
+	function playAudio(audioID) {
+		audioID.currentTime = 0;
+		audioID.volume = 0.1;
+		audioID.play();
+	}
+
+	/***************** TF2 global variables ******************/
 
 	const charName = ["scout", "soldier", "pyro", "demoman", "heavy", "engy", "medic", "sniper", "spy"];
 
 	let activeChar = char.heavy,
 
-		ammoLeft,
-		ammoCarried,
-		totalAmmo,
-
-
 		characterScreenOpen = true,
-
-		noShooting = true,
-
-		alreadyOnLastBullet = false,
 
 		mouseHeldDown,
 
@@ -80,51 +79,6 @@ $(document).ready(function () {
 
 		pointCount,
 		oldHighScore;
-
-	/******************TF2 global functions*****************/
-
-	//play audio
-	function playAudio(audio) {
-		audio.currentTime = 0;
-		audio.volume = 0.1;
-		audio.play();
-	}
-
-	//update ammo text
-	function updateText() {
-		$(".ammo").text(ammoLeft);
-		$(".total-ammo").text(ammoCarried);
-	}
-
-	//full ammo function
-	function fullAmmo() {
-		ammoLeft = activeChar.ammoLeft;
-		ammoCarried = activeChar.ammoCarried;
-		totalAmmo = ammoLeft + ammoCarried;
-		updateText();
-		alreadyOnLastBullet = false;
-		noShooting = false;
-		//reset spoken line when out of ammo
-		$("#speak").attr("src", "audio/" + activeChar.name + "/speak" + Math.floor(Math.random() * 3) + ".mp3");
-	}
-
-	//choose Character function
-	function chooseChar(charChoice) {
-		if (charChoice === "random") {
-			//prevent random from picking previous character again
-			const oldChar = activeChar;
-			while (activeChar === oldChar) {
-				const randomChoice = Math.floor(Math.random() * charName.length);
-				chooseChar([charName[randomChoice]]);
-			}
-			$("#random").addClass("active");
-		} else {
-			$(".active").removeClass("active");
-			$("#" + charChoice).addClass("active");
-			activeChar = char[charChoice];
-			playAudio($("#hover")[0]);
-		}
-	}
 
 	/**************** Preloads *******************/
 
@@ -207,7 +161,6 @@ $(document).ready(function () {
 		return {
 			openGameScreen: function () {
 				setValue();
-				fullAmmo();
 				$(".character-selection").hide();
 				characterScreenOpen = false;
 				//in case random is selected
@@ -244,7 +197,12 @@ $(document).ready(function () {
 	const shoot = (function () {
 
 		//reload functions
-		let alreadyReloading = false;
+		let	alreadyOnLastBullet = false,
+			noShooting = true,
+			ammoLeft = activeChar.ammoLeft,
+			ammoCarried = activeChar.ammoCarried,
+			totalAmmo = ammoLeft + ammoCarried;
+
 
 		const reloadAmmo = function () {
 			if (totalAmmo >= activeChar.ammoLeft) {
@@ -254,6 +212,11 @@ $(document).ready(function () {
 				ammoLeft = ammoLeft + ammoCarried;
 				ammoCarried = 0;
 			}
+		};
+
+		const updateText = function () {
+			$(".ammo").text(ammoLeft);
+			$(".total-ammo").text(ammoCarried);
 		};
 
 		//bullet animation
@@ -388,20 +351,35 @@ $(document).ready(function () {
 		};
 
 		return {
-			reloading: function () {
-				if (!alreadyReloading && ammoLeft !== activeChar.ammoLeft && ammoCarried !== 0 && !noShooting) {
-					alreadyReloading = true;
-					playAudio($("#reload")[0]);
-					noShooting = true;
-					clearInterval(mouseHeldDown);
-					setTimeout(function () {
-						noShooting = false;
-						alreadyReloading = false;
-						reloadAmmo();
-						updateText();
-					}, activeChar.reloadTime);
-				}
+			fullAmmo: function () {
+				ammoLeft = activeChar.ammoLeft;
+				ammoCarried = activeChar.ammoCarried;
+				totalAmmo = ammoLeft + ammoCarried;
+				updateText();
+				alreadyOnLastBullet = false;
+				noShooting = false;
+				//reset spoken line when out of ammo
+				$("#speak").attr("src", "audio/" + activeChar.name + "/speak" + Math.floor(Math.random() * 3) + ".mp3");
 			},
+
+			reloading: (function () {
+				let alreadyReloading = false;
+				
+				return function () {
+					if (!alreadyReloading && ammoLeft !== activeChar.ammoLeft && ammoCarried !== 0 && !noShooting) {
+						alreadyReloading = true;
+						playAudio($("#reload")[0]);
+						noShooting = true;
+						clearInterval(mouseHeldDown);
+						setTimeout(function () {
+							noShooting = false;
+							alreadyReloading = false;
+							reloadAmmo();
+							updateText();
+						}, activeChar.reloadTime);
+					}
+				};
+			}()),
 
 			reloadingCrate: function () {
 				noShooting = true;
@@ -410,8 +388,8 @@ $(document).ready(function () {
 				setTimeout(function () {
 					playAudio($("#reload")[0]);
 				}, 600);
-				setTimeout(function () {
-					fullAmmo();
+				setTimeout(() => {
+					this.fullAmmo();
 				}, 600 + activeChar.reloadTime);
 			},
 
@@ -464,64 +442,86 @@ $(document).ready(function () {
 	//select screen continue
 	$(".select-continue-button, .choose-character > div").click(function () {
 		screen.openGameScreen();
+		shoot.fullAmmo();
 	});
 
 	/*********** Choose character screen (mouse & keyboard) **************/
+	(function () {
 
-	$(".choose-character div").mouseenter(function () {
-		const charChoice = $(this).data("char");
-		chooseChar(charChoice);
-	});
-
-	//choose class (key) and other keys
-	$(document).keydown(function (key) {
-		if (characterScreenOpen) {
-			switch (parseInt(key.which, 10)) {
-			case 49: //"1"
-				chooseChar("scout");
-				break;
-			case 50: //"2"
-				chooseChar("soldier");
-				break;
-			case 51: //"3"
-				chooseChar("pyro");
-				break;
-			case 52: //"4"
-				chooseChar("demoman");
-				break;
-			case 53: //"5"
-				chooseChar("heavy");
-				break;
-			case 54: //"6"
-				chooseChar("engy");
-				break;
-			case 55: //"7"
-				chooseChar("medic");
-				break;
-			case 56: //"8"
-				chooseChar("sniper");
-				break;
-			case 57: //"9"
-				chooseChar("spy");
-				break;
-			case 48: //"0"
-				chooseChar("random");
-				break;
-			case 13: //"enter"
-				screen.openGameScreen();
-				break;
-			}
-		} else if (!characterScreenOpen) {
-			switch (parseInt(key.which, 10)) {
-			case 188: //","
-				screen.openCharacterScreen();
-				break;
-			case 82: //"r"
-				shoot.reloading();
-				break;
+		function chooseChar(charChoice) {
+			if (charChoice === "random") {
+				//prevent random from picking previous character again
+				const oldChar = activeChar;
+				while (activeChar === oldChar) {
+					const randomChoice = Math.floor(Math.random() * charName.length);
+					chooseChar([charName[randomChoice]]);
+				}
+				$("#random").addClass("active");
+			} else {
+				$(".active").removeClass("active");
+				$("#" + charChoice).addClass("active");
+				activeChar = char[charChoice];
+				playAudio($("#hover")[0]);
 			}
 		}
-	});
+
+		$(".choose-character div").mouseenter(function () {
+			const charChoice = $(this).data("char");
+			chooseChar(charChoice);
+		});
+
+		//choose class (key) and other keys
+		$(document).keydown(function (key) {
+			if (characterScreenOpen) {
+				switch (parseInt(key.which, 10)) {
+				case 49: //"1"
+					chooseChar("scout");
+					break;
+				case 50: //"2"
+					chooseChar("soldier");
+					break;
+				case 51: //"3"
+					chooseChar("pyro");
+					break;
+				case 52: //"4"
+					chooseChar("demoman");
+					break;
+				case 53: //"5"
+					chooseChar("heavy");
+					break;
+				case 54: //"6"
+					chooseChar("engy");
+					break;
+				case 55: //"7"
+					chooseChar("medic");
+					break;
+				case 56: //"8"
+					chooseChar("sniper");
+					break;
+				case 57: //"9"
+					chooseChar("spy");
+					break;
+				case 48: //"0"
+					chooseChar("random");
+					break;
+				case 13: //"enter"
+					screen.openGameScreen();
+					shoot.fullAmmo();
+					break;
+				}
+			} else if (!characterScreenOpen) {
+				switch (parseInt(key.which, 10)) {
+				case 188: //","
+					screen.openCharacterScreen();
+					break;
+				case 82: //"r"
+					shoot.reloading();
+					break;
+				}
+			}
+		});
+
+	}());
 
 	/*************** Crosshair and shooting (Mouse events) ********************/
 
