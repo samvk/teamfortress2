@@ -1,0 +1,37 @@
+// ==========================================================================
+// Buttons
+// ==========================================================================//
+
+.button {
+    //text
+    color: $white;
+
+    //design
+    background-color: $mediumgrey;
+    border: $darkgrey 0.08em solid;
+    border-radius: 0.3em;
+
+    //layout
+    padding: 0.1em 1.5em;
+
+    &:hover {
+        //design
+        background: $brown;
+        border: $darkbrown 0.08em solid;
+    }
+}
+
+//continue button
+%continue-button {
+    @include responsive-image("/img/menu-screen/continue-button.png", 17, 345, 75, 2) {
+        bottom: 2.1%;
+        right: 5%;
+    };
+
+    background-position: left;
+    &:hover { background-position: right; }
+}
+
+.welcome-screen__button, .map-screen__button, .character-screen__button {
+    @extend %continue-button;
+}

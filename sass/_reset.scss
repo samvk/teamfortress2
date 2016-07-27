@@ -1,0 +1,40 @@
+// ==========================================================================
+// CSS RESET (resets the styling of all HTML elements to a consistent baseline)
+// ==========================================================================//
+
+html, body, div, span, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, acronym, b, u, i, ol, ul, li,
+fieldset, form, table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, embed,
+footer, header, hgroup,
+section, audio {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+
+html {
+	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+	vertical-align: middle;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+	display: block;
+}

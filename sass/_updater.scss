@@ -1,0 +1,16 @@
+// ==========================================================================
+// CSS UPDATER (How some HTML tags should be defaulted)
+// ==========================================================================//
+
+//set inline elements to inline-block
+span {
+	display: inline-block;
+}
+
+button {
+    border: 0;
+    outline: 0;
+    color: inherit;
+    background-color: transparent;
+    font-family: inherit;
+}

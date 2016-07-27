@@ -1,0 +1,33 @@
+// ==========================================================================
+// HIGHSCORE
+// ==========================================================================//
+
+.highscore-box {
+	//text
+	font: 2.26vw/0.8 "TF2 chalk", Arial, Helvetica, sans-serif;
+
+	//layout
+	@include absolute(top 50% left 50%);
+	transform: translate(-50%, -64%);
+	width: 24%;
+
+	text-align: center;
+}
+
+.highscore__title {
+	//text
+	font-size: 2.7vw;
+}
+
+.highscore__table {
+	//layout
+	width: 100%;
+	
+	td:nth-child(odd) {
+		text-align: left;
+	}
+
+	td:nth-child(even) {
+		text-align: right;
+	}
+}

@@ -1,0 +1,33 @@
+// ==========================================================================
+// CHARACTER SCREEN
+// ==========================================================================//
+
+.character-screen {
+    //layout
+    @include responsive-image("/img/character-screen.png", 100, null, null, 10);
+}
+
+.choose-char--list {
+	//layout
+	position: absolute;
+	top: 6%;
+	width: 100%;
+    height: 14%;
+	padding-left: 14.7%;
+	box-sizing: border-box;
+
+	//hacks
+	font-size: 0; //prevent inline-block spacing
+}
+
+[data-choose-char] {
+	//layout
+	position: relative;
+	display: inline-block;
+	width: 6.7%;
+	height: 100%;
+}
+
+[data-choose-char="demoman"], [data-choose-char="medic"], [data-choose-char="random"] {
+	margin-left: 5.5%;
+}

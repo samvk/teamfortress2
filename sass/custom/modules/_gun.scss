@@ -1,0 +1,29 @@
+// ==========================================================================
+// GUN RULES
+// ==========================================================================//
+
+.cursor {
+	//layout
+	@include responsive-image("/img/cursor.png", 6.6, 160, 161, 10);
+	transform: translate(-50%, -50%);
+
+    //transitions
+    @include transition(transform 60ms ease);
+}
+
+//cursor zoom
+.cursor.is-shooting {
+    transform: translate(-50%, -50%) scale(1.16);
+}
+
+.bullethole {
+	//design
+	display: none;
+
+    //layout
+    @include responsive-image("/img/bullethole.png", 3.6, 90, 119, 10);
+    transform: translate(-50%, -68%);
+
+	//transitions
+	@include animation(fade 600ms ease 10000ms forwards);
+}

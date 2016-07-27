@@ -1,0 +1,48 @@
+// ==========================================================================
+// FONT VARIABLES
+// ==========================================================================//
+
+//Import Google Fonts
+
+@import url(https://fonts.googleapis.com/css?family=Anton);
+
+@font-face {
+    font-family: 'TF2';
+    src: url("/fonts/TF2.ttf.woff") format("woff"), url("/fonts/TF2.ttf.svg#TF2") format("svg"), url("/fonts/TF2.ttf.eot"), url("/fonts/TF2.ttf.eot?#iefix") format("embedded-opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TF2 chalk';
+    src: url("/fonts/tf2chalk.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+//Import Fonts
+
+//Fonts
+$font-family--primary: "Anton", Arial, Helvetica, sans-serif;
+$font-family--secondary: "TF2", Arial, Helvetica, sans-serif;
+$font-family--tertiary: "TF2 chalk", Arial, Helvetica, sans-serif;
+
+// Font Weights
+
+$lighter: 100;
+$light: 300;
+$font-weight--medium: 400;
+$bold: 700;
+$bolder: 900;
+
+//Font Sizes
+
+$font-size--base: 16px;
+
+//Line Heights
+
+$line-height--base: 1.4;
+$line-height--none: 1;
+$line-height--half: 1.2;
+$line-height--2: 1.7;
+$line-height--3: 2;

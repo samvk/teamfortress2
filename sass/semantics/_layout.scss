@@ -1,0 +1,34 @@
+// ==========================================================================
+// LAYOUT
+// ==========================================================================//
+
+//z-index
+
+body .z0 {
+	z-index: -1000; 
+}
+body .z1, .z1>div, .z1>p, .z1 li, .z1 button {
+	z-index: 1; 
+}
+body .z2, .z2>div, .z2>p, .z2 li, .z2 button {
+	z-index: 2000; 
+}
+body .z3, .z3>div, .z3>p, .z3 li, .z3 button {
+	z-index: 3000; 
+}
+body .z4, .z4>div, .z4>p, .z4 li, .z4 button {
+	z-index: 4000; 
+}
+body .z5, .z5>div, .z5>p, .z5 li, .z5 button {
+	z-index: 5000; 
+}
+body .z6, .z6>div, .z6>p, .z6 li, .z6 button {
+	z-index: 6000; 
+}
+body .z7, .z7>div, .z7>p, .z7 li, .z7 button {
+	z-index: 7000; 
+}
+
+body .z8, .z8>div, .z8>p, .z8 li, .z8 button {
+	z-index: 7000; 
+}

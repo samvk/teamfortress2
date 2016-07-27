@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="author" content="Sam Kauffman">
+    <meta name="description" content="TF2 Training Practice.">
+    <meta name="theme-color" content="#924738">
+
+    <title>Team Fortress 2</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#924738">
+
+	<!-- Custom Fonts -->
+
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel="stylesheet">
+
+</head>
+    
+<body>
+
+    <div class="z8 loading"></div> <!--Loading screen (removed when images loaded)-->
+
+    <!--welcome screen-->
+    <article class="z7 welcome-screen">
+        <button class="welcome-screen__button go-fullscreen"></button>
+    </article><!--//welcome screen-->
+
+    <!--map screen-->
+    <article class="z6 map-screen">
+        <!--highscore box-->
+		<section class="highscore-box">
+			<h2 class="highscore__title">Previous High Scores</h2>
+			
+			<table class="highscore__table">
+				<tr> <td>Scout</td>		<td data-highscore="scout"></td> 	</tr>
+				<tr> <td>Soldier</td>	<td data-highscore="soldier"></td> 	</tr>
+				<tr> <td>Pyro</td>		<td data-highscore="pyro"></td> 	</tr>
+				<tr> <td>Demoman</td>	<td data-highscore="demoman"></td> 	</tr>
+				<tr> <td>Heavy</td>		<td data-highscore="heavy"></td> 	</tr>
+				<tr> <td>Engineer</td>	<td data-highscore="engy"></td> 	</tr>
+				<tr> <td>Medic</td>		<td data-highscore="medic"></td> 	</tr>
+				<tr> <td>Sniper</td>	<td data-highscore="sniper"></td> 	</tr>
+				<tr> <td>Spy</td>		<td data-highscore="spy"></td> 		</tr>
+			</table>
+
+			<h3 class="last-played">Last Played:</h3>
+			<p class="last-played-message"></p>
+		</section><!--//highscore box-->
+
+        <button class="map-screen__button"></button>
+    </article><!--//map screen-->
+
+    <!--character screen-->
+	<article class="z5 character-screen" data-char="heavy">
+
+		<ul class="choose-char--list">
+			<!--Box over characters' pictures to select them-->
+			<li data-choose-char="scout"></li>
+			<li data-choose-char="soldier"></li>
+			<li data-choose-char="pyro"></li>
+			<li data-choose-char="demoman"></li>
+			<li data-choose-char="heavy"></li>
+			<li data-choose-char="engy"></li>
+			<li data-choose-char="medic"></li>
+			<li data-choose-char="sniper"></li>
+			<li data-choose-char="spy"></li>
+			<li data-choose-char="random"></li>
+		</ul>
+
+        <button class="character-screen__button"></button>
+    </article><!--//character screen-->
+
+    <!--gamescreen-->
+    <article class="z1 gamescreen">
+
+        <article class="z2 gamescreen--sky"></article><!--sky background (seperate image so bulletholes land behind)-->
+        
+        <div class="z3 cursor"></div><!--crosshair for each character-->
+
+        <section class="z4 gamescreen--hud">
+            <!--highscore alert-->
+            <p class="new-highscore--hud">New High Score!</p>
+
+            <div class="character-icon"></div>
+
+            <div class="crate"></div>
+
+            <!--ammo-backface-->
+            <div class="ammo-backface">
+                <p class="ammo"></p>
+                <p class="total-ammo"></p>
+                <p class="reload-line">Hit &lsquo;R&rsquo; to reload</p>
+            </div>
+            
+            <button class="fullscreen-icon go-fullscreen"></button>
+
+            <button class="change-char__button">Change classes [,]</button>
+        </section>
+        
+        <!--Headshot divs (to determine "critical hit")-->
+        <div class="z3 headshots">
+			<ul>
+				<li data-headshot="scout"></li>
+				<li data-headshot="soldier"></li>
+				<li data-headshot="pyro"></li>
+				<li data-headshot="demoman"></li>
+				<li data-headshot="heavy"></li>
+				<li data-headshot="engy"></li>
+				<li data-headshot="medic"></li>
+				<li data-headshot="sniper"></li>
+				<li data-headshot="spy"></li>
+			</ul>
+        </div> <!--//headshot-->
+
+		<!--container for all bulletholes-->
+		<ul class="bulletholes"></ul>
+
+<!--Audio IDs to be assigned based on character in tf2.js--> 
+        <audio id="gunshot0" preload="auto" src=""></audio>
+        <audio id="gunshot1" preload="auto" src=""></audio> <!--second rotating audio tag to prevent delay-->
+        <audio id="reload" preload="auto" src=""></audio>
+        <audio id="no-ammo0" preload="auto" src=""></audio>
+        <audio id="no-ammo1" preload="auto" src=""></audio>
+        <audio id="no" preload="auto" src=""></audio>
+        <audio id="gundraw" preload="auto" src=""></audio>
+        <audio id="speak" preload="auto" src=""></audio>
+        <audio id="metal" preload="auto" src="audio/resupply.mp3"></audio>
+        <audio id="button" preload="auto" src="audio/button.mp3"></audio>
+        <audio id="hover" preload="auto" src="audio/hover.mp3"></audio>
+        <audio id="headshot" preload="auto" src="audio/headshot.mp3"></audio>
+        <audio id="wind-up" preload="auto" src="audio/heavy/wind-up.mp3"></audio>
+        <audio id="wind-down" preload="auto" src="audio/heavy/wind-down.mp3"></audio>
+
+    </article> <!--//gamescreen-->
+
+	<div id="preload"></div>
+
+	<!--**************************************************-->
+
+    <!-- jQuery -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script>window.jQuery || document.write("<script src='/js/jquery.min.js'><\/script>")</script>
+    
+    <!-- Javascript -->
+    <script src="/js/script.js"></script>
+    
+</body>

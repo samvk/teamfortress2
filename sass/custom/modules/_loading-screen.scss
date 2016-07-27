@@ -1,0 +1,13 @@
+// ==========================================================================
+// LOADING SCREEN
+// ==========================================================================//
+
+.loading {
+    //design
+    background: url('../img/loading.gif') 50% 50% no-repeat $offwhite;
+
+    //layout
+	position: fixed;
+	width: 100%;
+	height: 100%;
+}

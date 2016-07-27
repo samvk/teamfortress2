@@ -1,0 +1,84 @@
+// ==========================================================================
+// HEADSHOT RULES
+// ==========================================================================//
+
+.headshots ul {
+    //layout
+    position: absolute;
+    top: 45%;
+    width: 100%;
+    height: 4.8%;
+    box-sizing: border-box;
+
+    //hacks
+    font-size: 0; //prevent inline-block spacing
+}
+
+[data-headshot] {
+    //design
+    border-radius: 40%;
+
+    //layout
+    position: relative;
+    display: inline-block;
+    width: 2%;
+    height: 100%;
+}
+
+[data-headshot="scout"] {
+    margin-left: 2.8%;
+}
+
+[data-headshot="soldier"] {
+    margin-left: 10.5%;
+}
+
+[data-headshot="pyro"] {
+    margin-left: 7.9%;
+    top: 30%;
+}
+
+[data-headshot="demoman"] {
+    margin-left: 10.7%;
+}
+
+[data-headshot="heavy"] {
+    margin-left: 12%;
+    top: -34%;
+}
+
+[data-headshot="engy"] {
+    margin-left: 6.9%;
+    top: 30%;
+}
+
+[data-headshot="medic"] {
+    margin-left: 8.7%;
+}
+
+[data-headshot="sniper"] {
+    margin-left: 10%;
+    top: -18%;
+}
+
+[data-headshot="spy"] {
+    margin-left: 9.3%;
+}
+
+/************* "Critical Hit!" text *****************/
+.crit {
+    //text
+    font: italic 1.7vw/1 "TF2", Arial, Helvetica, sans-serif;
+    color: $green;
+
+    //design
+    text-shadow: 0.04em 0.04em $trueblack;
+
+    //layout
+	position: absolute;
+    transform: translate(-50%, -150%);
+    text-align: center;
+
+    //transitions
+    @include animation(fade 340ms ease-in-out 500ms forwards);
+}

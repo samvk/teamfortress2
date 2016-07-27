@@ -1,0 +1,56 @@
+// ==========================================================================
+// BASE RULES
+// ==========================================================================//
+
+//base rules
+body {
+    //text
+    color: $white;
+    font-family: 'TF2', Times, serif;
+    line-height: 1.4;
+    
+    //design
+    background-color: $trueblack;
+
+	@include drag-none;
+}
+
+//article (all screens)
+article {
+    @include responsive-image(null, 100, 1920, 1080) {
+        //design
+        background-color: $darkgrey;
+
+        //layout
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+    };
+}
+
+//headers
+h1, h2, h3, h4, h5, h6 {
+    //design
+    text-decoration: underline;
+
+    //layout
+    margin-bottom: 0.1em;
+}
+
+//animations
+@include keyframes(fade) {
+    0% {opacity: 1; visibility: visible;}
+    100% {opacity: 0; visibility: hidden;}
+}
+
+//image switcher
+[data-char="scout"] {background-position: 0%; }
+[data-char="soldier"] {background-position: calc(100%/9 * 1); }
+[data-char="pyro"] {background-position: calc(100%/9 * 2); }
+[data-char="demoman"] {background-position: calc(100%/9 * 3); }
+[data-char="heavy"] {background-position: calc(100%/9 * 4); }
+[data-char="engy"] {background-position: calc(100%/9 * 5); }
+[data-char="medic"] {background-position: calc(100%/9 * 6); }
+[data-char="sniper"] {background-position: calc(100%/9 * 7); }
+[data-char="spy"] {background-position: calc(100%/9 * 8); }
+[data-char="random"] {background-position: calc(100%/9 * 9); }

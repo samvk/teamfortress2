@@ -1,0 +1,18 @@
+// ==========================================================================
+// GAMESCREEN
+// ==========================================================================//
+
+.gamescreen {
+    //design
+    background-image: url("/img/gamescreen.png");
+
+    cursor: none;
+	overflow: hidden;
+}
+
+//Seperate sky to hide bulletholes
+.gamescreen--sky {
+    //design
+    background-image: url("/img/gamescreen--sky.png");
+    background-color: transparent; //so gamescreen can be seen beneath
+}
