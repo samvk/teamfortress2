@@ -21,13 +21,11 @@
 	<!-- Custom Fonts -->
 
     <!-- Custom CSS -->
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
 </head>
     
 <body>
-
-    <div class="z8 loading"></div> <!--Loading screen (removed when images loaded)-->
 
     <!--welcome screen-->
     <article class="z7 welcome-screen">
@@ -60,7 +58,7 @@
     </article><!--//map screen-->
 
     <!--character screen-->
-	<article class="z5 character-screen" data-char="heavy">
+	<article class="z5 character-screen">
 
 		<ul class="choose-char--list">
 			<!--Box over characters' pictures to select them-->
@@ -87,6 +85,7 @@
         <div class="z3 cursor"></div><!--crosshair for each character-->
 
         <section class="z4 gamescreen--hud">
+
             <!--highscore alert-->
             <p class="new-highscore--hud">New High Score!</p>
 
@@ -96,12 +95,10 @@
 
             <!--ammo-backface-->
             <div class="ammo-backface">
-                <p class="ammo"></p>
-                <p class="total-ammo"></p>
+                <p class="clip"></p>
+                <p class="ammo-carried"></p>
                 <p class="reload-line">Hit &lsquo;R&rsquo; to reload</p>
             </div>
-            
-            <button class="fullscreen-icon go-fullscreen"></button>
 
             <button class="change-char__button">Change classes [,]</button>
         </section>
@@ -123,17 +120,18 @@
 
 		<!--container for all bulletholes-->
 		<ul class="bulletholes"></ul>
+        <img src="/img/bullethole.png"><!--preloaded hidden image-->
 
-<!--Audio IDs to be assigned based on character in tf2.js--> 
+        <!--Audio IDs to be assigned based on character in tf2.js--> 
         <audio id="gunshot0" preload="auto" src=""></audio>
-        <audio id="gunshot1" preload="auto" src=""></audio> <!--second rotating audio tag to prevent delay-->
+        <audio id="gunshot1" preload="auto" src=""></audio><!--second rotating audio tag to prevent delay-->
         <audio id="reload" preload="auto" src=""></audio>
         <audio id="no-ammo0" preload="auto" src=""></audio>
-        <audio id="no-ammo1" preload="auto" src=""></audio>
+        <audio id="no-ammo1" preload="auto" src=""></audio><!--second rotating audio tag to prevent delay-->
         <audio id="no" preload="auto" src=""></audio>
         <audio id="gundraw" preload="auto" src=""></audio>
         <audio id="speak" preload="auto" src=""></audio>
-        <audio id="metal" preload="auto" src="audio/resupply.mp3"></audio>
+        <audio id="resupply" preload="auto" src="audio/resupply.mp3"></audio>
         <audio id="button" preload="auto" src="audio/button.mp3"></audio>
         <audio id="hover" preload="auto" src="audio/hover.mp3"></audio>
         <audio id="headshot" preload="auto" src="audio/headshot.mp3"></audio>
@@ -141,16 +139,16 @@
         <audio id="wind-down" preload="auto" src="audio/heavy/wind-down.mp3"></audio>
 
     </article> <!--//gamescreen-->
-
-	<div id="preload"></div>
+    
+    <button class="z8 fullscreen-icon go-fullscreen"></button><!--fullscreen icon-->
 
 	<!--**************************************************-->
 
     <!-- jQuery -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	<script>window.jQuery || document.write("<script src='/js/jquery.min.js'><\/script>")</script>
+	<script>window.jQuery || document.write("<script src='js/jquery.min.js'><\/script>")</script>
     
     <!-- Javascript -->
-    <script src="/js/script.js"></script>
+    <script src="js/script.min.js"></script>
     
 </body>
