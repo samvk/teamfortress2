@@ -303,9 +303,6 @@ $(document).ready(function () {
 
     /***************** Load events *******************/
     $(window).load(function () {
-        //hide loadscreen
-        $(".loading").remove();
-
         //set highscore list
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;

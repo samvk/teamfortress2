@@ -263,9 +263,6 @@ $(document).ready(function () {
 
 	/***************** Load events *******************/
     $(window).load(function () {
-        //hide loadscreen
-        $(".loading").remove();
-
         //set highscore list
         for (let charName of charNames) {
             //find each classes high score (if it exists)
