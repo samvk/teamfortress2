@@ -41,7 +41,7 @@ const char = {
     engy: new Character("engy", 6, 32, 0, 0.4, 880, 1600, false, 10),
     medic: new Character("medic", 40, 150, 0, 0.2, 120, 1200, false, 2),
     sniper: new Character("sniper", 1, 25, 0, 0, 500, 1200, true, 10),
-    spy: new Character("spy", 6, 24, 0, 0.2, 770, 1890, true, 4)
+    spy: new Character("spy", 6, 2, 0, 0.2, 770, 1890, true, 4)
 };
 
 /*************** High Score cookies **************/
@@ -447,10 +447,10 @@ $(document).ready(function () {
 	});
 
 	//change classes button
-	$(".change-char__button").click(function (e) {
+    $(".change-char__button").mousedown(function (e) {
         $(".character-screen").show();
         screenOpen = "character-screen";
-	});
+    });
 
 	//disable right-click
 	$(document).on("contextmenu", () => false);
