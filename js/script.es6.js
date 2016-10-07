@@ -79,14 +79,7 @@ function playAudio(audioID, delay = 0) {
 }
 
 /*************** TF2 global variables ***************/
-//pull character names from Character class
-const charNames = (function () {
-    let nameArray = [];
-    for (let name in char) {
-        nameArray.push(name);
-    }
-    return nameArray;
-}());
+const charNames = Object.keys(char);
 
 let activeChar = char.scout,
 

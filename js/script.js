@@ -111,14 +111,7 @@ function playAudio(audioID) {
 }
 
 /*************** TF2 global variables ***************/
-//pull character names from Character class
-var charNames = (function () {
-    var nameArray = [];
-    for (var _name in char) {
-        nameArray.push(_name);
-    }
-    return nameArray;
-})();
+var charNames = Object.keys(char);
 
 var activeChar = char.scout,
     screenOpen = "menu-screen",
